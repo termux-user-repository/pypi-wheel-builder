@@ -1,0 +1,44 @@
+# These files are from termux/termux-packages
+/termux-packages/
+/disabled-packages/
+/ndk-patches/
+/packages/
+/root-packages/
+/scripts/
+/x11-packages/
+/CODEOWNERS
+/CONTRIBUTING.md
+/build-all.sh
+/build-package.sh
+/build-package.sh.orig
+/clean.sh
+
+# Vim
+[._]*.s[a-w][a-z]
+[._]s[a-w][a-z]
+*.un~
+Session.vim
+.netrwhist
+*~
+
+# Vagrant
+scripts/*.log
+scripts/.vagrant/
+
+# Built *.deb files.
+/debs/
+/output/
+
+# Built electron *.zip files
+/output-electron/
+
+# Preinstalled build tools.
+/build-tools/
+
+# Predownloaded packages sources.
+/packages/*/cache
+/root-packages/*/cache
+/x11-packages/*/cache
+
+# VSCode
+.vscode

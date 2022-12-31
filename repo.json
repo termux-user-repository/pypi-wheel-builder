@@ -1,0 +1,7 @@
+{
+    "packages": { "name" : "termux-main", "distribution" : "stable" },
+    "tur":      { "name" : "tur",         "distribution" : "stable" },
+    "tur-pypi": { "name": "tur-pypi", "distribution" : "pypi"},
+    "root-packages": { "name" : "termux-root", "distribution" : "root" },
+    "x11-packages":  { "name" : "termux-x11",  "distribution" : "x11" }
+}

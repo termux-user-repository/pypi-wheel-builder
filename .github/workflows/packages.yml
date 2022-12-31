@@ -54,19 +54,12 @@ jobs:
         repository: termux-user-repository/tur
         fetch-depth: 1
         path: ${{ github.workspace }}/tur-repo
-    - name: Clone termux-packages
-      uses: actions/checkout@v3
-      with:
-        repository: termux/termux-packages
-        fetch-depth: 1
-        path: ${{ github.workspace }}/main-repo
 
     - name: Merge repos
       run: |
-        cp -rn ./main-repo/* ./
-        rm -rf ./main-repo
         cp -rn ./tur-repo/* ./
         rm -rf ./tur-repo
+        ./setup-environment.sh
 
     - name: Gather build summary
       run: |

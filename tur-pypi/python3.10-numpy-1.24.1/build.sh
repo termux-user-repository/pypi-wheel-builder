@@ -1,0 +1,81 @@
+TERMUX_PKG_HOMEPAGE=https://numpy.org/
+TERMUX_PKG_DESCRIPTION="The fundamental package for scientific computing with Python"
+TERMUX_PKG_LICENSE="BSD 3-Clause"
+TERMUX_PKG_MAINTAINER="@termux"
+TERMUX_PKG_VERSION="1.24.1"
+TERMUX_PKG_SRCURL=https://github.com/numpy/numpy.git
+TERMUX_PKG_DEPENDS="libandroid-complex-math, libc++, libopenblas, python3.10"
+TERMUX_PKG_BUILD_IN_SRC=true
+TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
+
+TERMUX_PKG_RM_AFTER_INSTALL="
+bin/
+"
+
+tur_elf_cleaner_for_wheel() {
+	local filename="$(realpath $1)"
+
+	# Make a workspace and enter it
+	local work_dir="$(mktemp -d)"
+	pushd $work_dir
+
+	# Wheel file is actually a zip file, unzip it first.
+	unzip -q $filename
+
+	# Run elf-cleaner in the workspace
+	find . -type f -print0 | xargs -r -0 \
+			"$TERMUX_ELF_CLEANER" --api-level $TERMUX_PKG_API_LEVEL
+
+	# Re-zip the file
+	zip -q -r $filename *
+
+	# Clean up the workspace
+	popd
+	rm -rf $work_dir
+}
+
+termux_step_pre_configure() {
+	if $TERMUX_ON_DEVICE_BUILD; then
+		termux_error_exit "Package '$TERMUX_PKG_NAME' is not available for on-device builds."
+	fi
+	_PYTHON_VERSION="3.10"
+}
+
+termux_step_configure() {
+	termux_setup_python_crossenv
+	pushd $TERMUX_PYTHON_CROSSENV_SRCDIR
+	_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python-crossenv-prefix
+	python${_PYTHON_VERSION} -m crossenv \
+		$TERMUX_PREFIX/bin/python${_PYTHON_VERSION} \
+		${_CROSSENV_PREFIX}
+	popd
+	. ${_CROSSENV_PREFIX}/bin/activate
+	build-pip install wheel
+
+	LDFLAGS+=" -lpython${_PYTHON_VERSION} -landroid-complex-math -lm"
+
+	build-pip install pybind11 Cython pythran wheel
+}
+
+termux_step_make_install() {
+	export PYTHONPATH=$TERMUX_PREFIX/lib/python${_PYTHON_VERSION}/site-packages
+	MATHLIB="m" pip install --no-deps . --prefix $TERMUX_PREFIX
+}
+
+termux_step_post_massage() {
+	pushd $TERMUX_PKG_BUILDDIR
+	pip install wheel
+	python setup.py bdist_wheel
+
+	# Run elf-cleaner for wheels
+	shopt -s nullglob
+	local _whl
+	for _whl in ./dist/*.whl; do
+		tur_elf_cleaner_for_wheel $_whl
+	done
+	shopt -u nullglob
+
+	cp dist/*.whl $TERMUX_SCRIPTDIR/output/
+	popd
+}

@@ -220,7 +220,7 @@ jobs:
       if: github.event_name != 'pull_request'
       run: | 
           for i in ./output/*.whl; do
-            gh release upload -R https://github.com/termux-user-repository/pypi-index-tur "wheels" $i
+            gh release upload --clobber -R https://github.com/termux-user-repository/pypi-index-tur "wheels" $i
             echo "$i  uploaded"
           done
 

@@ -3,7 +3,7 @@ TERMUX_PKG_DESCRIPTION="Fundamental algorithms for scientific computing in Pytho
 TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION=1.9.3
-TERMUX_PKG_SRCURL=https://github.com/scipy/scipy.git
+TERMUX_PKG_SRCURL=git+https://github.com/scipy/scipy
 TERMUX_PKG_DEPENDS="libc++, libopenblas, python3.10, python3.10-numpy-1.24.1"
 TERMUX_PKG_BUILD_DEPENDS="python3.10-numpy-1.24.1-static"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -114,19 +114,4 @@ termux_step_post_make_install() {
 	# Remove __pycache__ and _sysconfigdata.py
 	rm $SYS_CONFIG_DATA_FILE
 	rm -rf $TERMUX_PREFIX/lib/python${_PYTHON_VERSION}/__pycache__
-}
-
-termux_step_post_massage() {
-	pushd $TERMUX_PKG_BUILDDIR
-
-	# Run elf-cleaner for wheels
-	shopt -s nullglob
-	local _whl
-	for _whl in ./dist/*.whl; do
-		tur_elf_cleaner_for_wheel $_whl
-	done
-	shopt -u nullglob
-
-	cp ./dist/*.whl $TERMUX_SCRIPTDIR/output/
-	popd
 }

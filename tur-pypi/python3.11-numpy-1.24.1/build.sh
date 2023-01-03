@@ -3,7 +3,7 @@ TERMUX_PKG_DESCRIPTION="The fundamental package for scientific computing with Py
 TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux"
 TERMUX_PKG_VERSION="1.24.1"
-TERMUX_PKG_SRCURL=https://github.com/numpy/numpy.git
+TERMUX_PKG_SRCURL=git+https://github.com/numpy/numpy
 TERMUX_PKG_DEPENDS="libandroid-complex-math, libc++, libopenblas, python"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
@@ -41,21 +41,4 @@ termux_step_configure() {
 termux_step_make_install() {
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${_PYTHON_VERSION}/site-packages
 	MATHLIB="m" pip install --no-deps . --prefix $TERMUX_PREFIX
-}
-
-termux_step_post_massage() {
-	pushd $TERMUX_PKG_BUILDDIR
-	pip install wheel
-	python setup.py bdist_wheel
-
-	# Run elf-cleaner for wheels
-	shopt -s nullglob
-	local _whl
-	for _whl in ./dist/*.whl; do
-		tur_elf_cleaner_for_wheel $_whl
-	done
-	shopt -u nullglob
-
-	cp dist/*.whl $TERMUX_SCRIPTDIR/output/
-	popd
 }

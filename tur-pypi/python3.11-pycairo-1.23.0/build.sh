@@ -30,20 +30,3 @@ termux_step_make_install() {
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${_PYTHON_VERSION}/site-packages
 	pip install --no-deps . --prefix $TERMUX_PREFIX
 }
-
-termux_step_post_massage() {
-	pushd $TERMUX_PKG_BUILDDIR
-	pip install wheel
-	python setup.py bdist_wheel
-
-	# Run elf-cleaner for wheels
-	shopt -s nullglob
-	local _whl
-	for _whl in ./dist/*.whl; do
-		tur_elf_cleaner_for_wheel $_whl
-	done
-	shopt -u nullglob
-
-	cp dist/*.whl $TERMUX_SCRIPTDIR/output/
-	popd
-}

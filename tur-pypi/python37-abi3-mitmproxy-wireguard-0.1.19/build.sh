@@ -10,6 +10,8 @@ TERMUX_PKG_DEPENDS="libc++, openssl, python"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
 
+TUR_WHEEL_DIR="target/wheels"
+
 source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
 
 termux_step_pre_configure() {
@@ -51,19 +53,4 @@ termux_step_make_install() {
 		mv ./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-py37-none-any.whl \
 			./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-abi3-linux_armv7l.whl
 	fi
-}
-
-termux_step_post_massage() {
-	pushd $TERMUX_PKG_BUILDDIR
-
-	# Run elf-cleaner for wheels
-	shopt -s nullglob
-	local _whl
-	for _whl in ./target/wheels/*.whl; do
-		tur_elf_cleaner_for_wheel $_whl
-	done
-	shopt -u nullglob
-
-	cp ./target/wheels/*.whl $TERMUX_SCRIPTDIR/output/
-	popd
 }

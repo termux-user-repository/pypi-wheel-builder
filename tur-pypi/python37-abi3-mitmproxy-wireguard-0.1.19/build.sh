@@ -5,10 +5,8 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="0.1.19"
 TERMUX_PKG_SRCURL=https://github.com/decathorpe/mitmproxy_wireguard/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz
 TERMUX_PKG_SHA256=749b5b45222b629f4cced154cc4bf70ba7ae3061db02e2ea0ae45a4ae6246463
-TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, openssl, python"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
 
 TUR_WHEEL_DIR="target/wheels"
 

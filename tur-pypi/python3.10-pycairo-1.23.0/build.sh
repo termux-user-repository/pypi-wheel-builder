@@ -6,7 +6,6 @@ TERMUX_PKG_VERSION="1.23.0"
 TERMUX_PKG_SRCURL=https://github.com/pygobject/pycairo/releases/download/v${TERMUX_PKG_VERSION}/pycairo-${TERMUX_PKG_VERSION}.tar.gz
 TERMUX_PKG_SHA256=9b61ac818723adc04367301317eb2e814a83522f07bbd1f409af0dada463c44c
 TERMUX_PKG_DEPENDS="python3.10, libcairo"
-TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_BUILD_IN_SRC=true
 
 source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh

@@ -7,11 +7,9 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION=39.0.1
 TERMUX_PKG_SRCURL=https://github.com/pyca/cryptography/archive/refs/tags/${TERMUX_PKG_VERSION}.tar.gz
 TERMUX_PKG_SHA256=e9a4fe4d32e3161dccf9172086e1c2c96e49854fde5f9a220d40c84b9faa9b87
-TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libffi, openssl, python3.8"
 TERMUX_PKG_BUILD_DEPENDS="python3.8-cross"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, cffi, setuptools-rust"
 TERMUX_PKG_PYTHON_TARGET_DEPS="'cffi>=1.12'"
 

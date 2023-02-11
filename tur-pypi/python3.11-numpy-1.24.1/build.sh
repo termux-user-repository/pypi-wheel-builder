@@ -6,8 +6,6 @@ TERMUX_PKG_VERSION="1.24.1"
 TERMUX_PKG_SRCURL=git+https://github.com/numpy/numpy
 TERMUX_PKG_DEPENDS="libandroid-complex-math, libc++, libopenblas, python"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 
 TERMUX_PKG_RM_AFTER_INSTALL="
 bin/

@@ -10,6 +10,7 @@ TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
 TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
 
 TERMUX_PYTHON_VERSION=3.8
+source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
 
 termux_step_post_get_source() {
     # The only binary file is the prebuilt node. Use a script instead.

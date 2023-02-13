@@ -1,0 +1,10 @@
+#!@TERMUX_PREFIX@/bin/sh
+
+NODE_BIN=@TERMUX_PREFIX@/opt/nodejs-16/bin/node
+
+if [ ! -e $NODE_BIN ]; then
+    pkg install tur-repo -y
+    pkg install nodejs-16 -y
+fi
+
+exec $NODE_BIN "$@"

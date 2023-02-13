@@ -1,0 +1,39 @@
+--- a/setup.py
++++ b/setup.py
+@@ -96,13 +96,13 @@
+                 "zip_name": "mac-arm64",
+             },
+             {
+-                "wheel": "manylinux1_x86_64.whl",
++                "wheel": "linux_x86_64.whl",
+                 "machine": "x86_64",
+                 "platform": "linux",
+                 "zip_name": "linux",
+             },
+             {
+-                "wheel": "manylinux_2_17_aarch64.manylinux2014_aarch64.whl",
++                "wheel": "linux_aarch64.whl",
+                 "machine": "aarch64",
+                 "platform": "linux",
+                 "zip_name": "linux-arm64",
+@@ -147,6 +147,10 @@
+             )
+             with zipfile.ZipFile(zip_file, "r") as zip:
+                 extractall(zip, f"driver/{wheel_bundle['zip_name']}")
++            os.remove(f"driver/{wheel_bundle['zip_name']}/node")
++            shutil.copy('node-wrapper.sh', f"driver/{wheel_bundle['zip_name']}/node")
++            subprocess.check_call(["bash", "-c", 
++                "find ./ -name '*.js' -type f -exec sed -i \"s@process.platform === 'linux'@(process.platform === 'linux' || process.platform === 'android')@g\" {} \;"])
+             wheel_location = without_platform + wheel_bundle["wheel"]
+             shutil.copy(base_wheel_location, wheel_location)
+             with zipfile.ZipFile(wheel_location, "a") as zip:
+@@ -232,7 +232,8 @@
+     python_requires=">=3.7",
+     cmdclass={"bdist_wheel": PlaywrightBDistWheelCommand},
+     use_scm_version={
+-        "version_scheme": "post-release",
++        "version_scheme": lambda version:version.format_with("{tag}"),
++        "local_scheme": "no-local-version",
+         "write_to": "playwright/_repo_version.py",
+         "write_to_template": 'version = "{version}"\n',
+     },

@@ -206,7 +206,7 @@ jobs:
     - name: Generate build artifacts
       if: always()
       run: |
-        cp output/*.whl wheels/
+        cp output/*.whl wheels/ || true
         # Files containing certain symbols (e.g. ":") will cause failure in actions/upload-artifact.
         # Archiving *.whl files in a tarball to avoid issues with uploading.
         tar cf artifacts/wheels-${{ matrix.target_arch }}-${{ github.sha }}.tar wheels
@@ -219,6 +219,7 @@ jobs:
     - name: Upload to GitHub Release
       if: github.event_name != 'pull_request'
       run: | 
+          shopt -s nullglob
           for i in ./output/*.whl; do
             gh release upload --clobber -R https://github.com/termux-user-repository/pypi-index-tur "wheels" $i
             echo "$i  uploaded"

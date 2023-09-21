@@ -29,9 +29,6 @@ scripts/.vagrant/
 /debs/
 /output/
 
-# Built electron *.zip files
-/output-electron/
-
 # Preinstalled build tools.
 /build-tools/
 

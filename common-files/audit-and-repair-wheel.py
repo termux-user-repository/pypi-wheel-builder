@@ -56,8 +56,16 @@ auditwheel.lddtree.load_ld_paths = load_ld_paths
 
 class TermuxPatchelf(Patchelf):
     def set_rpath(self, file_name: str, rpath: str) -> None:
+        rpathes = rpath.split(":")
+        # https://github.com/pypa/auditwheel/issues/344
+        # https://github.com/pypa/auditwheel/pull/454
+        for i in range(len(rpathes)):
+            rpath_ = rpathes[i]
+            if not rpath_.startswith("/") and not rpath_.startswith("$ORIGIN"):
+                rpathes[i] = os.path.join("$ORIGIN", os.path.relpath(rpath_, os.path.dirname(file_name)))
         # No matter what, add TERMUX_LIB_DIR
-        rpath = TERMUX_LIB_DIR if rpath == "" else rpath + ":" + TERMUX_LIB_DIR
+        rpathes.append(TERMUX_LIB_DIR)
+        rpath = ":".join(rpathes)
         check_call(["patchelf", "--remove-rpath", file_name])
         check_call(["patchelf", "--set-rpath", rpath, file_name])
 

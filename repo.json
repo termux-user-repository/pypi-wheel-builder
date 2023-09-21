@@ -17,6 +17,12 @@
     "component": "tur",
     "url": "https://tur.kcubeterm.com"
   },
+  "tur-pypi-b": {
+    "name": "tur-pypi-b",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
   "root-packages": {
     "name": "termux-root",
     "distribution": "root",

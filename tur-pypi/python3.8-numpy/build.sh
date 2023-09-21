@@ -2,12 +2,13 @@ TERMUX_PKG_HOMEPAGE=https://numpy.org/
 TERMUX_PKG_DESCRIPTION="The fundamental package for scientific computing with Python"
 TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="1.24.2"
+TERMUX_PKG_VERSION="1.24.4"
 TERMUX_PKG_SRCURL=git+https://github.com/numpy/numpy
 TERMUX_PKG_DEPENDS="libc++, libopenblas, python3.8"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, pybind11, 'Cython<3', pythran"
-TERMUX_PKG_AUTO_UPDATE=true
+# Numpy 1.25 dropped support for Python3.8
+TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_RM_AFTER_INSTALL="
 bin/
 "

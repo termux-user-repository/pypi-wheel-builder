@@ -45,7 +45,7 @@ TERMUX_EXCLUDE_LIBRARIES = [
 # Hook strip_symbols
 def strip_symbols(libraries: Iterable[str]) -> None:
     # Make sure that we will not strip for Android.
-    ps.abort()
+    os.abort()
 
 # Hook load_ld_paths
 def load_ld_paths(root: str = "/", prefix: str = "") -> dict[str, list[str]]:

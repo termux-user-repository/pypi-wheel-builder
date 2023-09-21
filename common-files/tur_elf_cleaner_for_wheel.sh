@@ -2,7 +2,8 @@
 : "${TUR_AUTO_AUDIT_WHEEL:=false}"
 
 tur_audit_wheel() {
-	local filename="$(realpath $1)"
+	local filepath="$(realpath $1)"
+	local filename="$(basename $filepath)"
 
 	# Make sure patchelf is installed
 	env -i PATH="$PATH" sudo apt update
@@ -11,10 +12,10 @@ tur_audit_wheel() {
 	# Install auditwheel for build-pip
 	build-pip install auditwheel
 	build-python $TERMUX_SCRIPTDIR/common-files/audit-and-repair-wheel.py \
-		-v --no-update-tags --lib-sdir="-libs" $filename
+		-v --no-update-tags --lib-sdir="-libs" $filepath
 
 	# Override the wheel
-	mv wheelhouse/numpy-1.24.1-cp311-cp311-linux_x86_64.whl $filename
+	mv wheelhouse/$filename $filepath
 }
 
 tur_elf_cleaner_for_wheel() {

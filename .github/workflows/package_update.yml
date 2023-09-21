@@ -28,7 +28,7 @@ on:
 
 jobs:
   update-packages:
-    if: github.repository == 'termux-user-repository/tur'
+    if: github.repository == 'termux-user-repository/pypi-index-tur'
     runs-on: ubuntu-latest
     steps:
       - name: Clone tur-pypi

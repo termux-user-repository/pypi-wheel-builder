@@ -3,12 +3,13 @@ TERMUX_PKG_DESCRIPTION="High performance, open source, general RPC framework tha
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
-TERMUX_PKG_VERSION="1.60.0-pre1"
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_VERSION="1.59.2"
 TERMUX_PKG_DEPENDS="abseil-cpp, c-ares, ca-certificates, libc++, libre2, openssl, python, zlib"
 TERMUX_PKG_BUILD_DEPENDS="gflags, gflags-static"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'Cython<3'"
 TERMUX_PKG_BUILD_IN_SRC=true
+TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 
 TERMUX_PYTHON_VERSION=3.11
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH

@@ -21,10 +21,10 @@ on:
     branches:
     - main
     paths:
-    - 'tur-pypi/**'
+    - 'tur-pypi-*/**'
   pull_request:
     paths:
-    - 'tur-pypi/**'
+    - 'tur-pypi-*/**'
   workflow_dispatch:
     inputs:
       packages:

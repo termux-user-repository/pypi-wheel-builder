@@ -11,8 +11,32 @@
     "component": "tur",
     "url": "https://tur.kcubeterm.com"
   },
-  "tur-pypi": {
-    "name": "tur-pypi",
+  "tur-pypi-311": {
+    "name": "tur-pypi-311",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
+  "tur-pypi-310": {
+    "name": "tur-pypi-310",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
+  "tur-pypi-39": {
+    "name": "tur-pypi-39",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
+  "tur-pypi-38": {
+    "name": "tur-pypi-38",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
+  "tur-pypi-37": {
+    "name": "tur-pypi-37",
     "distribution": "tur-packages",
     "component": "tur",
     "url": "https://tur.kcubeterm.com"

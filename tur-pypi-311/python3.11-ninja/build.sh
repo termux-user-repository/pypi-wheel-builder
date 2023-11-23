@@ -3,11 +3,11 @@ TERMUX_PKG_DESCRIPTION="A small build system with a focus on speed (Python Wheel
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.11.1.1"
-TERMUX_PKG_SRCURL=https://github.com/scikit-build/ninja-python-distributions/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=1475f410abad4b697f228594336d21e22cdd6a3c09516073274f10878e0546f8
+TERMUX_PKG_SRCURL=git+https://github.com/scikit-build/ninja-python-distributions
+TERMUX_PKG_GIT_BRANCH="$TERMUX_PKG_VERSION"
 TERMUX_PKG_DEPENDS="libc++, python"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-spawn-static"
-TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', scikit-build"
+TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"

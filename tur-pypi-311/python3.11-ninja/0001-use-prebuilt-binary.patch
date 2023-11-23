@@ -1,0 +1,41 @@
+From b0a49ef956225f924c5fa622ef0cff4698cac9b0 Mon Sep 17 00:00:00 2001
+From: Chongyun Lee <45286352+licy183@users.noreply.github.com>
+Date: Sun, 7 Aug 2022 03:17:03 +0800
+Subject: [PATCH] chore: provide an option to use prebuilt binary
+
+---
+ CMakeLists.txt | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 7674943..53a93d9 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -7,6 +7,8 @@ set(CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_MODULE_PATH})
+ # Options
+ option(BUILD_VERBOSE "Display additional information while building (e.g download progress, ...)" OFF)
+ set(ARCHIVE_DOWNLOAD_DIR "${CMAKE_BINARY_DIR}" CACHE PATH "Directory where to download archives")
++option(USE_PREBUILT_NINJA_BINARY "Whether to use the prebuilt ninja executable file provided by user" OFF)
++set(PREBUILT_NINJA_PATH "/usr/bin/ninja" CACHE PATH "The path of the prebuilt ninja binary")
+ 
+ include(NinjaUrls)
+ 
+@@ -77,6 +79,7 @@ elseif(NOT EXISTS ${Ninja_SOURCE_DIR})
+   message(FATAL_ERROR "Ninja_SOURCE_DIR is set to a nonexistent directory")
+ endif()
+ 
++if(NOT USE_PREBUILT_NINJA_BINARY)
+ #-----------------------------------------------------------------------------
+ # Build from source
+ #-----------------------------------------------------------------------------
+@@ -154,3 +157,10 @@ endif()
+ 
+ install(FILES ${Ninja_SOURCE_DIR}/misc/ninja_syntax.py DESTINATION src/ninja)
+ install(PROGRAMS ${ninja_executable} DESTINATION src/ninja/data/bin)
++else()
++if(NOT EXISTS ${PREBUILT_NINJA_PATH})
++  message(FATAL_ERROR "PREBUILT_NINJA_PATH doesn't exist!")
++endif()
++install(FILES ${Ninja_SOURCE_DIR}/misc/ninja_syntax.py DESTINATION src/ninja)
++install(PROGRAMS ${PREBUILT_NINJA_PATH} DESTINATION src/ninja/data/bin)
++endif()

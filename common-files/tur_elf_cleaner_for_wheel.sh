@@ -51,8 +51,16 @@ termux_step_post_massage() {
 	fi
 
 	shopt -s nullglob
-	local _whl
+	local _whl _whl_name _whl_version
 	for _whl in $TERMUX_PKG_BUILDDIR/$TUR_WHEEL_DIR/*.whl; do
+		# Check wheel version
+		# The python wheel is constructed with `{name}-{version}-{platform}-{abi}-{tag}`
+		_whl_name="$(basename $_whl)"
+		_whl_version="$(echo $_whl_name | cut -d'-' -f2)"
+		if [ "$_whl_version" != "$TERMUX_PKG_VERSION" ]; then
+			termux_error_exit "Version mismatch: Expected $TERMUX_PKG_VERSION, got $_whl_version."
+		fi
+
 		# Audit wheel if needed
 		if [ "$TUR_AUTO_AUDIT_WHEEL" != "false" ]; then
 			tur_audit_wheel	$_whl

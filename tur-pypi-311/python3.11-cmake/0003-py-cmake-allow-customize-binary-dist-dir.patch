@@ -1,0 +1,22 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -310,7 +310,7 @@
+       -DCMakeProject_BINARY_DIR:PATH=${CMakeProject_BINARY_DIR}
+       )
+ 
+-  else()
++  elseif(NOT DEFINED CMakeProject_BINARY_DISTRIBUTION_DIR)
+ 
+     #
+     # CMakeProject_BINARY_DISTRIBUTION_DIR
+@@ -343,6 +343,10 @@
+       -DCMakeProject_BINARY_DISTRIBUTION_DIR:PATH=${CMakeProject_BINARY_DISTRIBUTION_DIR}
+       )
+ 
++  else()
++    list(APPEND ${PROJECT_NAME}_CMAKE_CACHE_ARG
++      -DCMakeProject_BINARY_DISTRIBUTION_DIR:PATH=${CMakeProject_BINARY_DISTRIBUTION_DIR}
++      )
+   endif()
+ 
+   ExternalProject_add(${PROJECT_NAME}

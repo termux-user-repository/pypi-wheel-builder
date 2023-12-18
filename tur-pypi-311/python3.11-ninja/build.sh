@@ -39,10 +39,10 @@ termux_pkg_auto_update() {
 	local new_ninja_version="$(echo $latest_tag | cut -d'.' -f1-3)"
 
 	if [[ "$new_ninja_version" != "$_NINJA_VERSION" ]]; then
- 		_NINJA_VERSION="$new_ninja_version"
 		local tmpdir=$(mktemp -d)
+		local ninja_source_url="https://github.com/ninja-build/ninja/archive/v${new_ninja_version}.tar.gz"
 		local ninja_source_sha256
-		curl -LC - "$_NINJA_SRCURL" -o "${tmpdir}/${new_ninja_version}.tar.gz"
+		curl -LC - "$ninja_source_url" -o "${tmpdir}/${new_ninja_version}.tar.gz"
 		ninja_source_sha256=$(sha256sum "${tmpdir}/${new_ninja_version}.tar.gz" | sed -e "s| .*$||")
 
 		sed -i "${TERMUX_PKG_BUILDER_DIR}/build.sh" \

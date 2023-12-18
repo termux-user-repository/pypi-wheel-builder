@@ -42,10 +42,10 @@ termux_pkg_auto_update() {
 	local new_cmake_version="$(echo $latest_tag | cut -d'.' -f1-3)"
 
 	if [[ "$new_cmake_version" != "$_CMAKE_VERSION" ]]; then
- 		_CMAKE_VERSION="$new_cmake_version"
 		local tmpdir=$(mktemp -d)
+		local cmake_source_url="https://www.cmake.org/files/v${new_cmake_version:0:4}/cmake-${new_cmake_version}.tar.gz"
 		local cmake_source_sha256
-		curl -LC - "$_CMAKE_SRCURL" -o "${tmpdir}/${new_cmake_version}.tar.gz"
+		curl -LC - "$cmake_source_url" -o "${tmpdir}/${new_cmake_version}.tar.gz"
 		cmake_source_sha256=$(sha256sum "${tmpdir}/${new_cmake_version}.tar.gz" | sed -e "s| .*$||")
 
 		sed -i "${TERMUX_PKG_BUILDER_DIR}/build.sh" \

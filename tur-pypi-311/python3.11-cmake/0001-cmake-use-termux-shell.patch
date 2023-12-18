@@ -1,0 +1,22 @@
+--- a/cmake-source/Source/cmExecProgramCommand.cxx
++++ b/cmake-source/Source/cmExecProgramCommand.cxx
+@@ -205,7 +205,7 @@
+   }
+   fflush(stdout);
+   fflush(stderr);
+-  const char* cmd[] = { "/bin/sh", "-c", command.c_str(), nullptr };
++  const char* cmd[] = { "@TERMUX_PREFIX@/bin/sh", "-c", command.c_str(), nullptr };
+   cmsysProcess_SetCommand(cp, cmd);
+ #endif
+ 
+--- a/cmake-source/Source/cmLocalUnixMakefileGenerator3.cxx
++++ b/cmake-source/Source/cmLocalUnixMakefileGenerator3.cxx
+@@ -743,7 +743,7 @@
+ #if !defined(__VMS)
+       makefileStream
+         << "# The shell in which to execute make rules.\n"
+-        << "SHELL = /bin/sh\n"
++        << "SHELL = @TERMUX_PREFIX@/bin/sh\n"
+         << "\n";
+ #endif
+     }

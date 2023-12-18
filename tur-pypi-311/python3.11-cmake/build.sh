@@ -42,6 +42,7 @@ termux_pkg_auto_update() {
 	local new_cmake_version="$(echo $latest_tag | cut -d'.' -f1-3)"
 
 	if [[ "$new_cmake_version" != "$_CMAKE_VERSION" ]]; then
+ 		_CMAKE_VERSION="$new_cmake_version"
 		local tmpdir=$(mktemp -d)
 		local cmake_source_sha256
 		curl -LC - "$_CMAKE_SRCURL" -o "${tmpdir}/${new_cmake_version}.tar.gz"

@@ -10,7 +10,7 @@ tur_audit_wheel() {
 	env -i PATH="$PATH" sudo apt install -y patchelf
 
 	# Install auditwheel for build-pip
-	build-pip install auditwheel
+	build-pip install 'auditwheel<6'
 	build-python $TERMUX_SCRIPTDIR/common-files/audit-and-repair-wheel.py \
 		-v --no-update-tags --lib-sdir="-libs" $filepath
 

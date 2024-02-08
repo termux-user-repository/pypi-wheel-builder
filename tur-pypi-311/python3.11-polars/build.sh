@@ -93,10 +93,10 @@ termux_step_make_install() {
 
 	pip install --no-deps ./target/wheels/*.whl --prefix $TERMUX_PREFIX 
 
-	# Fix wheel name, although it it built with tag `cp38-abi3`, but it is linked against `python3.7m.so`
+	# Fix wheel name, although it it built with tag `cp38-abi3`, but it is linked against `python3.11.so`
 	# so it will not work on other pythons.
 	mv ./target/wheels/polars-$TERMUX_PKG_VERSION-cp38-abi3-linux_$TERMUX_ARCH.whl \
-		./target/wheels/polars-$TERMUX_PKG_VERSION-cp38-cp38-linux_$TERMUX_ARCH.whl
+		./target/wheels/polars-$TERMUX_PKG_VERSION-cp311-cp311-linux_$TERMUX_ARCH.whl
 }
 
 termux_step_post_make_install() {

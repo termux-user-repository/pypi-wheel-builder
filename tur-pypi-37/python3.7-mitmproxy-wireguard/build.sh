@@ -51,9 +51,9 @@ termux_step_make_install() {
 	# so it will not work on other pythons.
 	if [ "$TERMUX_ARCH" = "arm" ]; then
 		mv ./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-py37-none-any.whl \
-			./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-cp37-linux_armv7l.whl
+			./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-cp37m-linux_armv7l.whl
 	else
 		mv ./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-abi3-linux_$TERMUX_ARCH.whl \
-			./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-cp37-linux_$TERMUX_ARCH.whl
+			./target/wheels/mitmproxy_wireguard-$TERMUX_PKG_VERSION-cp37-cp37m-linux_$TERMUX_ARCH.whl
 	fi
 }

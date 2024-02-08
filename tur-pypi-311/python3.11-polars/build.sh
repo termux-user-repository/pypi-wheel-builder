@@ -24,7 +24,7 @@ TUR_AUDIT_WHEEL_NO_LIBS=true
 TUR_AUTO_BUILD_WHEEL=false
 TUR_WHEEL_DIR="target/wheels"
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_pkg_auto_update() {
 	# Get latest release tag:

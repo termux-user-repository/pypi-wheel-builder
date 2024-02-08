@@ -8,7 +8,7 @@ TERMUX_PKG_SHA256=9b61ac818723adc04367301317eb2e814a83522f07bbd1f409af0dada463c4
 TERMUX_PKG_DEPENDS="python3.10, libcairo"
 TERMUX_PKG_BUILD_IN_SRC=true
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_configure() {
 	_PYTHON_VERSION=3.10

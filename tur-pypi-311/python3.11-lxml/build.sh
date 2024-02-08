@@ -17,7 +17,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION
 TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUDIT_WHEEL_NO_LIBS=true
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_pkg_auto_update() {
 	local tag="$(termux_github_api_get_tag "${TERMUX_PKG_SRCURL}" "${TERMUX_PKG_UPDATE_TAG_TYPE}")"

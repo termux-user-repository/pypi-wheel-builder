@@ -15,7 +15,7 @@ TERMUX_PYTHON_VERSION=3.10
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
 TUR_AUTO_AUDIT_WHEEL=true
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
 	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"

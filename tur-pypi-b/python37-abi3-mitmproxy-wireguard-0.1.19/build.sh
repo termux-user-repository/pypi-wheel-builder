@@ -10,7 +10,7 @@ TERMUX_PKG_BUILD_IN_SRC=true
 
 TUR_WHEEL_DIR="target/wheels"
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_pre_configure() {
 	_PYTHON_VERSION=$(. $TERMUX_SCRIPTDIR/packages/python/build.sh; echo $_MAJOR_VERSION)

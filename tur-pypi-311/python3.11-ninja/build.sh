@@ -18,7 +18,7 @@ TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUDIT_WHEEL_NO_LIBS=true
 TUR_AUTO_BUILD_WHEEL=false
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 _NINJA_VERSION="1.11.1"
 _NINJA_SRCURL="https://github.com/ninja-build/ninja/archive/v${_NINJA_VERSION}.tar.gz"

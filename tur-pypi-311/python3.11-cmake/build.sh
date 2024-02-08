@@ -20,7 +20,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION
 # TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUTO_BUILD_WHEEL=false
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 _CMAKE_VERSION="3.27.4"
 _CMAKE_SRCURL="https://www.cmake.org/files/v${_CMAKE_VERSION:0:4}/cmake-${_CMAKE_VERSION}.tar.gz"

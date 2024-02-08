@@ -14,7 +14,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION
 
 TUR_AUDIT_WHEEL_NO_LIBS=true
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
 	# The only binary file is the prebuilt node. Use a script instead.

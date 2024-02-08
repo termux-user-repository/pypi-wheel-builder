@@ -11,7 +11,7 @@ TERMUX_PKG_RM_AFTER_INSTALL="
 bin/
 "
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_pre_configure() {
 	if $TERMUX_ON_DEVICE_BUILD; then

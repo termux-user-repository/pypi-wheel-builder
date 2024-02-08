@@ -15,7 +15,7 @@ TERMUX_PKG_PYTHON_TARGET_DEPS="'cffi>=1.12'"
 
 TERMUX_PYTHON_VERSION=3.8
 
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
 	echo "Applying openssl-libs.diff"

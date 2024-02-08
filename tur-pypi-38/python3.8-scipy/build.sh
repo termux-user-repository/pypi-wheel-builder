@@ -30,7 +30,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python-crossenv-prefix
 TUR_AUTO_BUILD_WHEEL=false
 
 source $TERMUX_SCRIPTDIR/common-files/setup_toolchain_gcc.sh
-source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
 	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"

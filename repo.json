@@ -41,6 +41,12 @@
     "component": "tur",
     "url": "https://tur.kcubeterm.com"
   },
+  "tur-pypi-generic": {
+    "name": "tur-pypi-generic",
+    "distribution": "tur-packages",
+    "component": "tur",
+    "url": "https://tur.kcubeterm.com"
+  },
   "tur-pypi-b": {
     "name": "tur-pypi-b",
     "distribution": "tur-packages",

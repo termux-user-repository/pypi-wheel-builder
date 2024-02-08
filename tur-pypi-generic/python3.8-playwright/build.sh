@@ -11,6 +11,9 @@ TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
 
 TERMUX_PYTHON_VERSION=3.8
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
+
+TUR_AUDIT_WHEEL_NO_LIBS=true
+
 source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
 
 termux_step_post_get_source() {

@@ -10,12 +10,13 @@ TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
 TERMUX_PKG_BLACKLISTED_ARCHES="arm, i686"
 
 TERMUX_PYTHON_VERSION=3.8
+TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
 source $TERMUX_SCRIPTDIR/common-files/tur_elf_cleaner_for_wheel.sh
 
 termux_step_post_get_source() {
-    # The only binary file is the prebuilt node. Use a script instead.
+	# The only binary file is the prebuilt node. Use a script instead.
 	sed "s|@TERMUX_PREFIX@|$TERMUX_PREFIX|g" \
-        $TERMUX_PKG_BUILDER_DIR/node-wrapper.sh.in > node-wrapper.sh
+		$TERMUX_PKG_BUILDER_DIR/node-wrapper.sh.in > node-wrapper.sh
 	chmod +x node-wrapper.sh
 
 	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"

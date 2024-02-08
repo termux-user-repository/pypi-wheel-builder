@@ -40,7 +40,7 @@ tur_elf_cleaner_for_wheel() {
 	rm -rf $work_dir
 }
 
-termux_step_post_massage() {
+tur_build_wheel() {
 	: "${TUR_WHEEL_DIR:="dist"}"
 	pushd $TERMUX_PKG_BUILDDIR
 
@@ -73,4 +73,8 @@ termux_step_post_massage() {
 	# Copy wheels to output
 	cp $TUR_WHEEL_DIR/*.whl $TERMUX_SCRIPTDIR/output/
 	popd
+}
+
+termux_step_post_massage() {
+	tur_build_wheel
 }

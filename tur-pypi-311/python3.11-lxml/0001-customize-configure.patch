@@ -1,0 +1,12 @@
+--- a/buildlibxml.py
++++ b/buildlibxml.py
+@@ -483,6 +483,9 @@
+                      '--prefix=%s' % prefix,
+                      ]
+ 
++    configure_cmd_extra = [x.strip() for x in os.environ.get("TERMUX_CONFIGURE_CMD_EXTRA", "").split() if x.strip()]
++    configure_cmd += configure_cmd_extra
++
+     # build zlib
+     zlib_configure_cmd = [
+         './configure',

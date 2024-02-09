@@ -16,8 +16,7 @@ TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 
 TERMUX_PYTHON_VERSION=3.11
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
-# FIXME: This should be enabled if all of the deps has LICENSE
-# TUR_AUTO_AUDIT_WHEEL=true
+TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUTO_BUILD_WHEEL=false
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
@@ -75,8 +74,8 @@ termux_step_configure() {
 	TERMUX_PKG_SRCDIR+="/cmake-source"
 	mkdir -p cmake-build && cd cmake-build
 	termux_step_configure_cmake
-	ninja -j $TERMUX_MAKE_PROCESSES || bash
-	ninja -j 1 install || bash
+	ninja -j $TERMUX_MAKE_PROCESSES
+	ninja -j 1 install
 	popd # cmake-source
 
 	TERMUX_PKG_SRCDIR="$_origin_srcdir"
@@ -89,4 +88,11 @@ termux_step_make_install() {
 		-DBUILD_CMAKE_FROM_SOURCE:BOOL=OFF \
 		-DRUN_CMAKE_TEST:BOOL=OFF \
 		-DCMakeProject_BINARY_DISTRIBUTION_DIR="$TERMUX_PREFIX/opt/cmake-wheel-dist"
+}
+
+tur_install_wheel_license() {
+	local _lib
+	for _lib in libarchive jsoncpp libnghttp2 rhash libssh2 libuv libxml2; do
+		cp $TERMUX_PREFIX/share/doc/$_lib/LICENSE $_lib-LICENSE
+	done
 }

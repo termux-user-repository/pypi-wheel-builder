@@ -86,3 +86,8 @@ termux_step_make_install() {
 	rm -f $TERMUX_PREFIX/bin/.placeholder
 	touch $TERMUX_PREFIX/bin/.placeholder
 }
+
+tur_install_wheel_license() {
+	# Install license of ninja binary
+	cp $TERMUX_PKG_SRCDIR/ninja-source/COPYING COPYING-ninja-binary
+}

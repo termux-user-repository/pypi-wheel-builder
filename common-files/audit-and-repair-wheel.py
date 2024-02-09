@@ -31,10 +31,11 @@ TERMUX_EXCLUDE_LIBRARIES = [
     "libc++_shared.so",
     # Termux essentials
     "libandroid-support.so", "libtermux-exec.so", "libcurl.so", "libiconv.so",
-    "libexpat.so", "libz.so.1", "liblzma.so.5",
+    "libexpat.so.1", "libz.so.1", "liblzma.so.5", "libbz2.so.1.0",
+    "libssl.so.3", "libcrypto.so.3", 
     # libpython* libraries
     "libpython3.so",
-    "libpython3.7.so.1.0", "libpython3.8.so.1.0", "libpython3.9.so.1.0",
+    "libpython3.7m.so.1.0", "libpython3.8.so.1.0", "libpython3.9.so.1.0",
     "libpython3.10.so.1.0", "libpython3.11.so.1.0",
     # TODO: Python package dependencies
     # TODO: X related libraries

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# audit-and-update-record-for-wheel.py - Update RECORD file of a wheel.
+# audit-and-update-record-for-wheel.py - Update RECORD file for wheels.
 #
 from __future__ import annotations
 
@@ -41,7 +41,7 @@ def execute(args, p):
 
 
 def main():
-    p = argparse.ArgumentParser(description="Cross-distro Python wheels.")
+    p = argparse.ArgumentParser(description="Update RECORD for Python wheels.")
     p.add_argument(
         "-v",
         "--verbose",

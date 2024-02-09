@@ -3,12 +3,17 @@
 : "${TUR_AUTO_AUDIT_WHEEL:=false}"
 : "${TUR_AUTO_ELF_CLEAN_WHEEL:=true}"
 : "${TUR_AUDIT_WHEEL_NO_LIBS:=false}"
+: "${TUR_PACKAGE_WHEEL_LICENSE:=true}"
+
+tur_install_wheel_license() {
+	return
+}
 
 tur_update_record_file_of_wheel() {
 	local filepath="$(realpath $1)"
 	local filename="$(basename $filepath)"
 
-	# Run `auditwheel InWheel` to update RECORD file
+	# Run script to update RECORD file
 	build-python $TERMUX_SCRIPTDIR/common-files/audit-and-update-record-for-wheel.py \
 		-v $filepath
 
@@ -16,7 +21,7 @@ tur_update_record_file_of_wheel() {
 	mv wheelhouse/$filename $filepath
 }
 
-tur_audit_wheel() {
+tur_audit_and_repair_wheel() {
 	local filepath="$(realpath $1)"
 	local filename="$(basename $filepath)"
 
@@ -24,12 +29,16 @@ tur_audit_wheel() {
 	env -i PATH="$PATH" sudo apt update
 	env -i PATH="$PATH" sudo apt install -y patchelf
 
-	# Run `auditwheel repair` to package libs
+	# Run script to package libs
 	build-python $TERMUX_SCRIPTDIR/common-files/audit-and-repair-wheel.py \
 		-v --no-update-tags --lib-sdir="-libs" $filepath
 
 	# Override the wheel
 	mv wheelhouse/$filename $filepath
+}
+
+tur_check_no_libs_after_audit_wheel() {
+	local filepath="$(realpath $1)"
 
 	# Make a workspace and enter it
 	local work_dir="$(mktemp -d)"
@@ -42,13 +51,32 @@ tur_audit_wheel() {
 	local _lib_name=
 	# shopt -s nullglob
 	for _lib_name in $_whl_package_name-libs/*.so; do
-		# Check whether there is libs packaged
-		if [ "$TUR_AUDIT_WHEEL_NO_LIBS" != "false" ]; then
-			termux_error_exit "Found lib $_lib_name packaged after auditwheel."
-		fi
-		# TODO: Audit license
+		termux_error_exit "Found lib $_lib_name packaged after auditwheel."
 	done
 	# shopt -u nullglob
+
+	# Clean up the workspace
+	popd # $work_dir
+	rm -rf $work_dir
+}
+
+tur_package_wheel_license() {
+	local filepath="$(realpath $1)"
+	local filename="$(basename $filepath)"
+	local whl_name="$(echo $filename | cut -d'-' -f1)"
+
+	# Make a workspace and enter it
+	local work_dir="$(mktemp -d)"
+	pushd $work_dir
+
+	# Wheel file is actually a zip file, unzip it first.
+	unzip -q $filepath
+
+	# Run package license
+	mkdir -p "$whl_name-licenses"
+	pushd "$whl_name-licenses"
+	tur_install_wheel_license
+	popd # $whl_name-licenses
 
 	# Re-zip the file
 	zip -q -r $filepath *
@@ -112,13 +140,24 @@ tur_build_wheel() {
 
 		# Audit wheel if needed
 		if [ "$TUR_AUTO_AUDIT_WHEEL" != "false" ]; then
-			tur_audit_wheel	$_whl
+			tur_audit_and_repair_wheel $_whl
+			if [ "$TUR_AUDIT_WHEEL_NO_LIBS" != "false" ]; then
+				tur_check_no_libs_after_audit_wheel $_whl
+			fi
+		fi
+
+		# Package license if needed
+		if [ "$TUR_PACKAGE_WHEEL_LICENSE" != "false" ]; then
+			tur_package_wheel_license $_whl
 		fi
 
 		# Run elf-cleaner for wheel if needed
 		if [ "$TUR_AUTO_ELF_CLEAN_WHEEL" != "false" ]; then
 			tur_elf_cleaner_for_wheel $_whl
 		fi
+
+		# Finally, update RECORD file
+		tur_update_record_file_of_wheel $_whl
 	done
 	shopt -u nullglob
 

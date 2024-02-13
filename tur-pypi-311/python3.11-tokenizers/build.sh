@@ -18,6 +18,8 @@ TUR_AUDIT_WHEEL_NO_LIBS=true
 TUR_AUTO_BUILD_WHEEL=false
 TUR_WHEEL_DIR="target/wheels"
 
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
+
 termux_step_post_get_source() {
 	rm -f $TERMUX_PKG_SRCDIR/Makefile
 }

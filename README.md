@@ -11,8 +11,8 @@ only. If you want to file a package request, please click [here](https://github.
 
 ## See also
 
-TUR: https://github.com/termux-user-repositoty/tur
+TUR: https://github.com/termux-user-repository/tur
 
 termux/termux-packages: https://github.com/termux/termux-packages
 
-termux-user-repository/pypi: https://github.com/termux-user-repositoty/pypi
+termux-user-repository/pypi: https://github.com/termux-user-repository/pypi

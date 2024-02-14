@@ -1,4 +1,4 @@
-# pypi-index-tur
+# pypi-wheel-builder
 
 This repository contains the building system of Python Wheel files for Termux/Android.
 It contains some scripts to build and publish wheels to a custom pypi index.

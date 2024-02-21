@@ -39,6 +39,7 @@ tur_audit_and_repair_wheel() {
 
 tur_check_no_libs_after_audit_wheel() {
 	local filepath="$(realpath $1)"
+	local filename="$(basename $filepath)"
 
 	# Make a workspace and enter it
 	local work_dir="$(mktemp -d)"

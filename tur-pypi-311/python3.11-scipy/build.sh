@@ -28,12 +28,12 @@ TERMUX_PKG_RM_AFTER_INSTALL="
 bin/
 "
 
-TERMUX_MESON_NUMPY_CROSSFILE="$TERMUX_PKG_TMPDIR/numpy-cross-file.txt"
+TERMUX_MESON_WHEEL_CROSSFILE="$TERMUX_PKG_TMPDIR/numpy-cross-file.txt"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -Dblas=openblas
 -Dlapack=openblas
 -Duse-pythran=false
---cross-file $TERMUX_MESON_NUMPY_CROSSFILE
+--cross-file $TERMUX_MESON_WHEEL_CROSSFILE
 "
 
 TERMUX_PYTHON_VERSION=3.11
@@ -68,11 +68,11 @@ termux_step_pre_configure() {
 termux_step_configure() {
 	termux_setup_meson
 
-	cp -f $TERMUX_MESON_CROSSFILE $TERMUX_MESON_NUMPY_CROSSFILE
+	cp -f $TERMUX_MESON_CROSSFILE $TERMUX_MESON_WHEEL_CROSSFILE
 	sed -i 's|^\(\[binaries\]\)$|\1\npython = '\'$(command -v python)\''|g' \
-		$TERMUX_MESON_NUMPY_CROSSFILE
+		$TERMUX_MESON_WHEEL_CROSSFILE
 	sed -i 's|^\(\[properties\]\)$|\1\nnumpy-include-dir = '\'$PYTHON_SITE_PKG/numpy/core/include\''|g' \
-		$TERMUX_MESON_NUMPY_CROSSFILE
+		$TERMUX_MESON_WHEEL_CROSSFILE
 
 	termux_step_configure_meson
 }

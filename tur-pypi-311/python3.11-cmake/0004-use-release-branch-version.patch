@@ -1,6 +1,6 @@
 --- a/setup.py
 +++ b/setup.py
-@@ -75,6 +75,12 @@
+@@ -75,6 +75,16 @@
          keywords='CMake build c++ fortran cross-platform cross-compilation',
  
          extras_require={"test": test_requirements},
@@ -9,18 +9,26 @@
 +            "version_scheme": lambda version:version.format_with("{tag}"),
 +            "local_scheme": "no-local-version",
 +            "write_to": "src/cmake/_version.py",
++            "write_to_template": """
++version = __version__ = {version!r}
++__version_tuple__ = version_tuple = {version_tuple!r}
++"""
 +        },
      )
  except BaseException:
      # Note: This is a bare exception that re-raises so that we don't interfere
 --- a/pyproject.toml
 +++ b/pyproject.toml
-@@ -6,9 +6,6 @@
+@@ -6,13 +6,6 @@
  ]
  build-backend = "setuptools.build_meta"
  
 -[tool.setuptools_scm]
 -write_to = "src/cmake/_version.py"
+-write_to_template = """
+-version = __version__ = {version!r}
+-__version_tuple__ = version_tuple = {version_tuple!r}
+-"""
 -
  [tool.cibuildwheel]
  build = "cp39-*"

@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/scikit-build/cmake-python-distributions
 TERMUX_PKG_DESCRIPTION="A small build system with a focus on speed (Python Wheel Distribution)"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="3.28.3"
+TERMUX_PKG_VERSION="3.28.4"
 TERMUX_PKG_SRCURL=https://github.com/scikit-build/cmake-python-distributions/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=87ab0caa46ee269cd9e38a43b99180390032a34d4e5c4c70878bc6b0432cda9e
+TERMUX_PKG_SHA256=33f277c8ba3cd12b6a7e6c2d05c2a4ee113fc1c752c71e60d3782a1352a22602
 TERMUX_PKG_DEPENDS="libarchive, libc++, libcurl, libexpat, jsoncpp, libuv, python, rhash, zlib"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -21,9 +21,9 @@ TUR_AUTO_BUILD_WHEEL=false
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
-_CMAKE_VERSION=3.28.3
+_CMAKE_VERSION=3.28.4
 _CMAKE_SRCURL="https://www.cmake.org/files/v${_CMAKE_VERSION:0:4}/cmake-${_CMAKE_VERSION}.tar.gz"
-_CMAKE_SHA256=72b7570e5c8593de6ac4ab433b73eab18c5fb328880460c86ce32608141ad5c1
+_CMAKE_SHA256=eb9c787e078848dc493f4f83f8a4bbec857cd1f38ab6425ce8d2776a9f6aa6fb
 
 termux_pkg_auto_update() {
 	local latest_tag

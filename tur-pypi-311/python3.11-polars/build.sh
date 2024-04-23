@@ -106,7 +106,7 @@ termux_step_make_install() {
 
 	build-python -m maturin build --release --skip-auditwheel --target $CARGO_BUILD_TARGET
 
-	pip install --no-deps ./target/wheels/*.whl --prefix $TERMUX_PREFIX 
+	pip install --no-deps ./target/wheels/*.whl --prefix $TERMUX_PREFIX
 
 	# Fix wheel name, although it it built with tag `cp38-abi3`, but it is linked against `python3.11.so`
 	# so it will not work on other pythons.

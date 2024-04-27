@@ -10,10 +10,10 @@ TERMUX_PKG_BUILD_IN_SRC=true
 
 # Tests will hang on arm and will failed with `Segmentation fault` on i686.
 # See https://github.com/termux-user-repository/tur/pull/21#issue-1295483266.
-# 
-# The logs of this crash on i686 are as following. 
+#
+# The logs of this crash on i686 are as following.
 # linalg/tests/test_basic.py: Fatal Python error: Segmentation fault
-# 
+#
 # Current thread 0xf7f4b580 (most recent call first):
 #   File "/data/data/com.termux/files/usr/lib/python3.10/site-packages/scipy-1.8.0-py3.10-linux-i686.egg/scipy/linalg/_basic.py", line 1227 in lstsq
 #   File "/data/data/com.termux/files/usr/lib/python3.10/site-packages/scipy-1.8.0-py3.10-linux-i686.egg/scipy/linalg/tests/test_basic.py", line 1047 in test_simple_overdet_complex
@@ -38,7 +38,7 @@ termux_step_configure() {
 	_setup_toolchain_ndk_gcc_11
 
 	# XXX: `python` from main repo is built by TERMUX_STANDALONE_TOOLCHAIN and its _sysconfigdata.py
-	# XXX: contains some FLAGS which is not supported by GNU Compiler Collections, such as '-Oz',  
+	# XXX: contains some FLAGS which is not supported by GNU Compiler Collections, such as '-Oz',
 	# XXX: `-static-openmp`. So we need to modify the _sysconfigdata.py.
 	SYS_CONFIG_DATA_FILE="$(find $TERMUX_PREFIX/lib/python${_PYTHON_VERSION} -name "_sysconfigdata*.py")"
 	rm -rf  $TERMUX_PREFIX/lib/python${_PYTHON_VERSION}/__pycache__
@@ -71,7 +71,7 @@ termux_step_make() {
 	INI=$(find $BUILD_SITE -name 'npymath.ini')
 	LIBDIR=$(find $DEVICE_SITE -path '*/numpy/core/lib')
 	INCDIR=$(find $DEVICE_SITE -path '*/numpy/core/include')
-	cat <<-EOF > $INI 
+	cat <<-EOF > $INI
 	[meta]
 	Name=npymath
 	Description=Portable, core math library implementing C99 standard

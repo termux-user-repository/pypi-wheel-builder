@@ -20,7 +20,7 @@ TUR_AUTO_AUDIT_WHEEL=true
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
-	# numpy has switched to use meson-python by default, 
+	# numpy has switched to use meson-python by default,
 	# but meson-python hasn't supported cross compiling.
 	# See mesonbuild/meson-python#321
 	rm -f meson.build pyproject.toml

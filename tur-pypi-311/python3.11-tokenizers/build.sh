@@ -31,7 +31,7 @@ termux_step_pre_configure() {
 	termux_setup_rust
 
 	# Tokenizers uses some extra libs that requires `core` crates, but
-	# the toolchain provided by rustup doesn't have them (Android is at 
+	# the toolchain provided by rustup doesn't have them (Android is at
 	# tier 2). Use nightly toolchain and enable `build-std` feature to
 	# build these crates.
 	rustup toolchain install nightly
@@ -59,7 +59,7 @@ termux_step_make_install() {
 			./target/wheels/tokenizers-$TERMUX_PKG_VERSION-py311-none-any.whl
 	fi
 
-	pip install --no-deps ./target/wheels/*.whl --prefix $TERMUX_PREFIX 
+	pip install --no-deps ./target/wheels/*.whl --prefix $TERMUX_PREFIX
 
 	# Fix wheel name for arm
 	if [ "$TERMUX_ARCH" = "arm" ]; then

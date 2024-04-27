@@ -8,7 +8,8 @@ TERMUX_PKG_DEPENDS="abseil-cpp, c-ares, ca-certificates, libc++, libre2, openssl
 TERMUX_PKG_BUILD_DEPENDS="gflags, gflags-static"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'Cython<3'"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_AUTO_UPDATE=true
+# Since version 1.17.0, grpcio has dropped support for Python 3.7.
+TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 
 TERMUX_PYTHON_VERSION=3.7

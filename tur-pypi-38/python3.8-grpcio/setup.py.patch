@@ -1,5 +1,14 @@
 --- a/setup.py
 +++ b/setup.py
+@@ -63,7 +63,7 @@
+ if "freebsd" in sys.platform:
+     CARES_INCLUDE += (os.path.join("third_party", "cares", "config_freebsd"),)
+ if "linux" in sys.platform:
+-    CARES_INCLUDE += (os.path.join("third_party", "cares", "config_linux"),)
++    CARES_INCLUDE += (os.path.join("third_party", "cares", "config_android"),)
+ if "openbsd" in sys.platform:
+     CARES_INCLUDE += (os.path.join("third_party", "cares", "config_openbsd"),)
+ RE2_INCLUDE = (os.path.join("third_party", "re2"),)
 @@ -314,25 +314,25 @@
          lambda x: "third_party/boringssl" not in x, CORE_C_FILES
      )
@@ -32,11 +41,11 @@
  EXTENSION_INCLUDE_DIRECTORIES = (
      (PYTHON_STEM,)
 @@ -375,7 +375,7 @@
-     EXTENSION_LIBRARIES += ("re2",)
  if BUILD_WITH_SYSTEM_ABSL:
      EXTENSION_LIBRARIES += tuple(
--        lib.stem[3:] for lib in pathlib.Path("/usr").glob("lib*/libabsl_*.so")
-+        lib.stem[3:] for lib in pathlib.Path("@TERMUX_PREFIX@").glob("lib*/libabsl_*.so")
+         lib.stem[3:]
+-        for lib in sorted(pathlib.Path("/usr").glob("lib*/libabsl_*.so"))
++        for lib in sorted(pathlib.Path("@TERMUX_PREFIX@").glob("lib*/libabsl_*.so"))
      )
  
  DEFINE_MACROS = (("_WIN32_WINNT", 0x600),)

@@ -1,0 +1,11 @@
+--- a/third_party/abseil-cpp/absl/log/internal/log_sink_set.cc
++++ b/third_party/abseil-cpp/absl/log/internal/log_sink_set.cc
+@@ -116,7 +116,7 @@
+   }
+ };
+ 
+-#if defined(__ANDROID__)
++#if defined(__ANDROID__) && !defined(__TERMUX__)
+ class AndroidLogSink final : public LogSink {
+  public:
+   ~AndroidLogSink() override = default;

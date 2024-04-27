@@ -5,7 +5,7 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
 TERMUX_PKG_VERSION="1.63.0"
 TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python3.9, zlib"
-TERMUX_PKG_BUILD_DEPENDS="gflags, gflags-static, python3.9-cross"
+TERMUX_PKG_BUILD_DEPENDS="python3.9-cross"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'Cython<3'"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true

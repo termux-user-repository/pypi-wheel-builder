@@ -5,7 +5,7 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
 TERMUX_PKG_VERSION="1.63.0"
 TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python3.10, zlib"
-TERMUX_PKG_BUILD_DEPENDS="gflags, gflags-static"
+TERMUX_PKG_BUILD_DEPENDS="python3.10-cross"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'Cython<3'"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
@@ -17,6 +17,10 @@ TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUDIT_WHEEL_NO_LIBS=true
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
+
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
 
 termux_step_pre_configure() {
 	rm CMakeLists.txt Makefile Rakefile

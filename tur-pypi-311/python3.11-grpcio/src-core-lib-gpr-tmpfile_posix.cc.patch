@@ -6,6 +6,6 @@
  
 -  gpr_asprintf(&filename_template, "/tmp/%s_XXXXXX", prefix);
 +  gpr_asprintf(&filename_template, "@TERMUX_PREFIX@/tmp/%s_XXXXXX", prefix);
-   GPR_ASSERT(filename_template != nullptr);
+   CHECK_NE(filename_template, nullptr);
  
    fd = mkstemp(filename_template);

@@ -64,6 +64,7 @@ jobs:
           BUILD_PACKAGES: "true"
           GIT_COMMIT_PACKAGES: "true"
           GIT_PUSH_PACKAGES: "true"
+          CREATE_ISSUE: "true"
         run: |
           git config --global user.name "TUR Github Actions"
           git config --global user.email "abc@example.com"

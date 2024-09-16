@@ -3,7 +3,7 @@ TERMUX_PKG_DESCRIPTION="High performance, open source, general RPC framework tha
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
-TERMUX_PKG_VERSION="1.65.2"
+TERMUX_PKG_VERSION="1.65.3"
 TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python3.10, zlib"
 TERMUX_PKG_BUILD_DEPENDS="python3.10-cross"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools, 'Cython>=3.0.0'"

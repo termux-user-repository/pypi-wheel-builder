@@ -3,7 +3,7 @@ TERMUX_PKG_DESCRIPTION="High performance, open source, general RPC framework tha
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
-TERMUX_PKG_VERSION="1.65.5"
+TERMUX_PKG_VERSION="1.66.0"
 TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python, zlib"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools, 'Cython>=3.0.0'"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -31,4 +31,17 @@ termux_step_pre_configure() {
 		> $TERMUX_PKG_TMPDIR/_fake_bin/"$(basename ${CC})"
 	chmod +x $TERMUX_PKG_TMPDIR/_fake_bin/"$(basename ${CC})"
 	export PATH="$TERMUX_PKG_TMPDIR/_fake_bin:$PATH"
+}
+
+termux_step_post_massage() {
+	# Ensure no liblog.so is linked
+	local _cygrpc_so="$TERMUX_PYTHON_HOME/site-packages/grpc/_cython/cygrpc.cpython-${TERMUX_PYTHON_VERSION/./}.so"
+	if [ ! -e "$_cygrpc_so" ]; then
+		termux_error_exit "Package ${TERMUX_PKG_NAME} doesn't build properly."
+	fi
+	if readelf -d "$_cygrpc_so" | grep -q '(NEEDED).*\[liblog\.so'; then
+		termux_error_exit "Found liblog.so linked."
+	fi
+
+	tur_build_wheel
 }

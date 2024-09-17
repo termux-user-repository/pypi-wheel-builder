@@ -40,7 +40,7 @@ termux_step_pre_configure() {
 
 termux_step_post_massage() {
 	# Ensure no liblog.so is linked
-	local _cygrpc_so="$TERMUX_PREFIX/python$TERMUX_PYTHON_VERSION/site-packages/grpc/_cython/cygrpc.cpython-${TERMUX_PYTHON_VERSION/./}.so"
+	local _cygrpc_so="$TERMUX_PREFIX/lib/python$TERMUX_PYTHON_VERSION/site-packages/grpc/_cython/cygrpc.cpython-${TERMUX_PYTHON_VERSION/./}.so"
 	if [ ! -e "$_cygrpc_so" ]; then
 		termux_error_exit "Package ${TERMUX_PKG_NAME} doesn't build properly."
 	fi

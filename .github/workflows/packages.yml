@@ -44,12 +44,12 @@ jobs:
       fail-fast: false
     steps:
     - name: Clone tur-pypi
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         fetch-depth: 1000
         path: ${{ github.workspace }}
     - name: Clone tur
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
       with:
         repository: termux-user-repository/tur
         fetch-depth: 1
@@ -212,7 +212,7 @@ jobs:
         tar cf artifacts/wheels-${{ matrix.target_arch }}-${{ github.sha }}.tar wheels
     - name: Store *.whl files
       if: always()
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: wheels-${{ matrix.target_arch }}-${{ github.sha }}
         path: ./artifacts

@@ -36,7 +36,7 @@ TERMUX_EXCLUDE_LIBRARIES = [
     # libpython* libraries
     "libpython3.so",
     "libpython3.7m.so.1.0", "libpython3.8.so.1.0", "libpython3.9.so.1.0",
-    "libpython3.10.so.1.0", "libpython3.11.so.1.0",
+    "libpython3.10.so.1.0", "libpython3.11.so.1.0", "libpython3.12.so.1.0",
     # TODO: Python package dependencies
     # TODO: X related libraries
     "libX11.so", "libX11.so.6", "libXext.so", "libXrender.so", "libICE.so",
@@ -124,7 +124,7 @@ def execute(args, p):
 
         patcher = TermuxPatchelf()
         out_wheel = repair_wheel(
-            wheel_file,
+            wheel_path=wheel_file,
             abis=["linux_x86_64"],
             lib_sdir=args.LIB_SDIR,
             out_dir=args.WHEEL_DIR,

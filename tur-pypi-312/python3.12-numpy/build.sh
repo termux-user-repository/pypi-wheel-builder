@@ -23,6 +23,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION
 TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUTO_BUILD_WHEEL=false
 TUR_WHEEL_DIR="../src/dist"
+TUR_LIB_LICENSE_JSON="$TERMUX_PKG_BUILDER_DIR/licenses.json"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
@@ -77,4 +78,9 @@ termux_step_make_install() {
 	local _pyv="${TERMUX_PYTHON_VERSION/./}"
 	local _whl="numpy-$TERMUX_PKG_VERSION-cp$_pyv-cp$_pyv-linux_$TERMUX_ARCH.whl"
 	pip install --no-deps --prefix=$TERMUX_PREFIX --force-reinstall $TERMUX_PKG_SRCDIR/dist/$_whl
+}
+
+tur_install_wheel_license() {
+	# Install the license of libopenblas
+	cp $TERMUX_PREFIX/share/doc/libopenblas/copyright libopenblas-LICENSE
 }

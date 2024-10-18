@@ -4,6 +4,7 @@
 : "${TUR_AUTO_ELF_CLEAN_WHEEL:=true}"
 : "${TUR_AUDIT_WHEEL_NO_LIBS:=false}"
 : "${TUR_PACKAGE_WHEEL_LICENSE:=true}"
+: "${TUR_LIB_LICENSE_JSON:=""}"
 
 tur_install_wheel_license() {
 	return
@@ -37,28 +38,22 @@ tur_audit_and_repair_wheel() {
 	mv wheelhouse/$filename $filepath
 }
 
-tur_check_no_libs_after_audit_wheel() {
+tur_check_libs_and_licenses_for_wheel() {
 	local filepath="$(realpath $1)"
 	local filename="$(basename $filepath)"
 
-	# Make a workspace and enter it
-	local work_dir="$(mktemp -d)"
-	pushd $work_dir
-
-	# Wheel file is actually a zip file, unzip it first.
-	unzip -q $filepath
-
-	local _whl_package_name="$(echo $filename | cut -d'-' -f1)"
-	local _lib_name=
-	# shopt -s nullglob
-	for _lib_name in $_whl_package_name-libs/*.so; do
-		termux_error_exit "Found lib $_lib_name packaged after auditwheel."
-	done
-	# shopt -u nullglob
-
-	# Clean up the workspace
-	popd # $work_dir
-	rm -rf $work_dir
+	# Run script to check the libs and licenses
+	local _args="--lib-sdir=-libs"
+	if [ "$TUR_AUDIT_WHEEL_NO_LIBS" != "false" ]; then
+		_args+=" --ensure-no-libs"
+	fi
+	if [ "$TUR_LIB_LICENSE_JSON" != "" ]; then
+		_args+=" --check-libs --check-licenses --json $TUR_LIB_LICENSE_JSON"
+	elif [ "$TUR_AUDIT_WHEEL_NO_LIBS" == "false" ]; then
+		termux_error_exit "Must check libs and licenses after install"
+	fi
+	build-python $TERMUX_SCRIPTDIR/common-files/audit-and-update-record-for-wheel.py \
+		-v $_args $filepath
 }
 
 tur_package_wheel_license() {
@@ -142,9 +137,6 @@ tur_build_wheel() {
 		# Audit wheel if needed
 		if [ "$TUR_AUTO_AUDIT_WHEEL" != "false" ]; then
 			tur_audit_and_repair_wheel $_whl
-			if [ "$TUR_AUDIT_WHEEL_NO_LIBS" != "false" ]; then
-				tur_check_no_libs_after_audit_wheel $_whl
-			fi
 		fi
 
 		# Package license if needed
@@ -157,8 +149,8 @@ tur_build_wheel() {
 			tur_elf_cleaner_for_wheel $_whl
 		fi
 
-		# Finally, update RECORD file
-		tur_update_record_file_of_wheel $_whl
+		# Finally, check libs and licenses if needed, and update RECORD file
+		tur_check_libs_and_licenses_for_wheel $_whl
 	done
 	shopt -u nullglob
 

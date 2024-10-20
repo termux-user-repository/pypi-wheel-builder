@@ -47,7 +47,13 @@ tur_check_libs_and_licenses_for_wheel() {
 	if [ "$TUR_AUDIT_WHEEL_NO_LIBS" != "false" ]; then
 		_args+=" --ensure-no-libs"
 	fi
-	if [ "$TUR_LIB_LICENSE_JSON" != "" ]; then
+	if [ "$TUR_LIB_LICENSE_JSON" == "force-skipped" ]; then
+		echo "Force skip the checks for libs and licenses"
+	elif [ "$TUR_LIB_LICENSE_JSON" != "" ]; then
+		_args+=" --json $TUR_LIB_LICENSE_JSON --check-libs"
+		if [ "$TUR_PACKAGE_WHEEL_LICENSE" != "false" ]; then
+			_args+=" --check-licenses"
+		fi
 		_args+=" --check-libs --check-licenses --json $TUR_LIB_LICENSE_JSON"
 	elif [ "$TUR_AUDIT_WHEEL_NO_LIBS" == "false" ]; then
 		termux_error_exit "Must check libs and licenses after install"

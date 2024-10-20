@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://python-pillow.org/
 TERMUX_PKG_DESCRIPTION="Python Imaging Library"
 TERMUX_PKG_LICENSE="custom"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="10.4.0"
+TERMUX_PKG_VERSION="11.0.0"
 TERMUX_PKG_SRCURL=https://github.com/python-pillow/Pillow/archive/refs/tags/${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=e70284e8605a5b7ccb37e5bfd4634598ca2c43c7f2c353572351ccf72c031004
+TERMUX_PKG_SHA256=f60959120cac783dc39be7e093bff8f9dcbb5be58bcc1372c57492f748a3b759
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="freetype, libimagequant, libjpeg-turbo, libraqm, libtiff, libwebp, libxcb, littlecms, openjpeg, python3.11, zlib"
 TERMUX_PKG_LICENSE_FILE="LICENSE"
@@ -17,6 +17,7 @@ TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION
 TUR_AUTO_AUDIT_WHEEL=true
 # XXX: Licenses are included in the LICENSE file of Pillow.
 TUR_PACKAGE_WHEEL_LICENSE=false
+TUR_LIB_LICENSE_JSON="force-skipped"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 

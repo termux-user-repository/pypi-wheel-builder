@@ -7,7 +7,7 @@ TERMUX_PKG_SRCURL=git+https://github.com/scikit-build/ninja-python-distributions
 TERMUX_PKG_GIT_BRANCH="$TERMUX_PKG_VERSION"
 TERMUX_PKG_DEPENDS="libc++, python3.11"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-spawn-static"
-TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'setuptools-scm[toml]', scikit-build"
+TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
@@ -74,7 +74,7 @@ termux_step_configure() {
 	pushd ninja-source
 	./configure.py
 	termux_setup_ninja
-	ninja -j $TERMUX_MAKE_PROCESSES
+	ninja -j $TERMUX_PKG_MAKE_PROCESSES
 	popd # ninja-source
 }
 
@@ -87,9 +87,15 @@ termux_step_make_install() {
 
 	rm -f $TERMUX_PREFIX/bin/.placeholder
 	touch $TERMUX_PREFIX/bin/.placeholder
+
+	# Convert it to a generic wheel
+	mv ./dist/ninja-$TERMUX_PKG_VERSION-cp311-cp311-linux_$TERMUX_ARCH.whl \
+		./dist/ninja-$TERMUX_PKG_VERSION-py2.py3-none-linux_$TERMUX_ARCH.whl
 }
 
 tur_install_wheel_license() {
 	# Install license of ninja binary
 	cp $TERMUX_PKG_SRCDIR/ninja-source/COPYING COPYING-ninja-binary
+	# Install license of libandroid-spawn
+	cp $TERMUX_PREFIX/share/doc/libandroid-spawn/LICENSE LICENSE-libandroid-spawn
 }

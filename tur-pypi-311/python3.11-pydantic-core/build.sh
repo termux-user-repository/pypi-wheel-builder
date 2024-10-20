@@ -21,6 +21,10 @@ TUR_WHEEL_DIR="target/wheels"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
+
 termux_step_pre_configure() {
 	termux_setup_rust
 

@@ -28,6 +28,10 @@ termux_pkg_auto_update() {
 	fi
 }
 
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
+
 termux_step_pre_configure() {
 	export STATIC_DEPS=true
 	export TERMUX_CONFIGURE_CMD_EXTRA="--build=x86_64-linux-gnu --host=$TERMUX_HOST_PLATFORM"

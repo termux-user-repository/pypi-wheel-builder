@@ -21,6 +21,10 @@ TUR_PACKAGE_WHEEL_LICENSE=false
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
+
 termux_step_pre_configure() {
 	CFLAGS="-I$TERMUX_PYTHON_HOME/site-packages/numpy/core/include $CFLAGS"
 	CPPFLAGS="-I$TERMUX_PYTHON_HOME/site-packages/numpy/core/include $CPPFLAGS"

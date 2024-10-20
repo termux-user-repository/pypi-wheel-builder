@@ -45,6 +45,10 @@ TUR_WHEEL_DIR="../src/dist"
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 source $TERMUX_SCRIPTDIR/common-files/setup_toolchain_gcc.sh
 
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
+
 termux_step_pre_configure() {
 	if $TERMUX_ON_DEVICE_BUILD; then
 		termux_error_exit "Package '$TERMUX_PKG_NAME' is not available for on-device builds."

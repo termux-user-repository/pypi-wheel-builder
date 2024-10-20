@@ -63,6 +63,8 @@ termux_step_post_get_source() {
 
 	tar -xf $_ninja_source_file
 	mv ninja-$_NINJA_VERSION ninja-source
+
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
 }
 
 termux_step_configure() {

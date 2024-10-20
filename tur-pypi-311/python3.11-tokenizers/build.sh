@@ -22,6 +22,8 @@ source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
 termux_step_post_get_source() {
 	rm -f $TERMUX_PKG_SRCDIR/Makefile
+
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
 }
 
 termux_step_pre_configure() {

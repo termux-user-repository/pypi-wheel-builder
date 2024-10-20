@@ -64,6 +64,8 @@ termux_step_post_get_source() {
 
 	tar -xf $_cmake_source_file
 	mv cmake-$_CMAKE_VERSION cmake-source
+
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
 }
 
 termux_step_configure() {

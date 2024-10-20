@@ -44,6 +44,10 @@ termux_pkg_auto_update() {
 	termux_pkg_upgrade_version "${latest_version}"
 }
 
+termux_step_post_get_source() {
+	export PATH="$TERMUX_PREFIX/opt/python$TERMUX_PYTHON_VERSION/cross/bin:$PATH"
+}
+
 termux_step_pre_configure() {
 	termux_setup_cmake
 	termux_setup_rust

@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/pola-rs/polars
 TERMUX_PKG_DESCRIPTION="Dataframes powered by a multithreaded, vectorized query engine, written in Rust"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="1.9.0"
+TERMUX_PKG_VERSION="1.10.0"
 TERMUX_PKG_SRCURL=https://github.com/pola-rs/polars/releases/download/py-$TERMUX_PKG_VERSION/polars-$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=8e1206ef876f61c1d50a81e102611ea92ee34631cb135b46ad314bfefd3cb122
+TERMUX_PKG_SHA256=855b0fffbe4fbb1c89b4f9b4b6cc724b337f946a9ba50829eb22b8a36483b3c3
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, python3.11"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
@@ -115,7 +115,7 @@ termux_step_make_install() {
 
 	# Fix wheel name, although it it built with tag `cp38-abi3`, but it is linked against `python3.11.so`
 	# so it will not work on other pythons.
-	mv ./target/wheels/polars-$TERMUX_PKG_VERSION-cp38-abi3-linux_$TERMUX_ARCH.whl \
+	mv ./target/wheels/polars-$TERMUX_PKG_VERSION-cp39-abi3-linux_$TERMUX_ARCH.whl \
 		./target/wheels/polars-$TERMUX_PKG_VERSION-cp311-cp311-linux_$TERMUX_ARCH.whl
 }
 

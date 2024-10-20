@@ -4,8 +4,8 @@ TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.13.0"
 TERMUX_PKG_SRCURL=git+https://github.com/scipy/scipy
-TERMUX_PKG_DEPENDS="libc++, libopenblas, python, python-numpy"
-TERMUX_PKG_BUILD_DEPENDS="python-numpy-static"
+TERMUX_PKG_DEPENDS="libc++, libopenblas, python3.11, python3.11-numpy"
+TERMUX_PKG_BUILD_DEPENDS="python3.11-numpy-static"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'Cython>=3.0.4', meson-python, build"
 _NUMPY_VERSION=$(. $TERMUX_SCRIPTDIR/packages/python-numpy/build.sh; echo $TERMUX_PKG_VERSION)
 TERMUX_PKG_PYTHON_BUILD_DEPS="'pybind11>=2.10.4', 'numpy==$_NUMPY_VERSION'"

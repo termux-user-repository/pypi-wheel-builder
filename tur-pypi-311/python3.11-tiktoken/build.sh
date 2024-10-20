@@ -6,7 +6,7 @@ TERMUX_PKG_VERSION="0.8.0"
 TERMUX_PKG_SRCURL=https://github.com/openai/tiktoken/archive/refs/tags/$TERMUX_PKG_VERSION.tar.gz
 TERMUX_PKG_SHA256=6ac7a9cfe9f9c4d111ea633b7ae2214ba504a6a4e994b26dff28b3bdee919293
 TERMUX_PKG_AUTO_UPDATE=true
-TERMUX_PKG_DEPENDS="libc++, python"
+TERMUX_PKG_DEPENDS="libc++, python3.10"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools-rust"
 TERMUX_PKG_PYTHON_TARGET_DEPS="'regex>=2022.1.18', 'requests>=2.26.0'"
 TERMUX_PKG_BUILD_IN_SRC=true

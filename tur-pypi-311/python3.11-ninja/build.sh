@@ -5,7 +5,7 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.11.1.1"
 TERMUX_PKG_SRCURL=git+https://github.com/scikit-build/ninja-python-distributions
 TERMUX_PKG_GIT_BRANCH="$TERMUX_PKG_VERSION"
-TERMUX_PKG_DEPENDS="libc++, python"
+TERMUX_PKG_DEPENDS="libc++, python3.11"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-spawn-static"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true

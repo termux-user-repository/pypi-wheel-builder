@@ -4,7 +4,7 @@ TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.26.4"
 TERMUX_PKG_SRCURL=git+https://github.com/numpy/numpy
-TERMUX_PKG_DEPENDS="libc++, libopenblas, python"
+TERMUX_PKG_DEPENDS="libc++, libopenblas, python3.11"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_PYTHON_COMMON_DEPS="'setuptools==59.2.0', 'wheel==0.38.1', 'Cython>=0.29.34,<3.1'"
 TERMUX_PKG_AUTO_UPDATE=true

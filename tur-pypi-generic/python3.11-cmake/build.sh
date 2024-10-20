@@ -18,6 +18,7 @@ TERMUX_PYTHON_VERSION=3.11
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
 TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUTO_BUILD_WHEEL=false
+TUR_LIB_LICENSE_JSON="$TERMUX_PKG_BUILDER_DIR/licenses.json"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
@@ -76,7 +77,7 @@ termux_step_configure() {
 	TERMUX_PKG_SRCDIR+="/cmake-source"
 	mkdir -p cmake-build && cd cmake-build
 	termux_step_configure_cmake
-	ninja -j $TERMUX_MAKE_PROCESSES
+	ninja -j $TERMUX_PKG_MAKE_PROCESSES
 	ninja -j 1 install
 	popd # cmake-source
 
@@ -90,11 +91,16 @@ termux_step_make_install() {
 		-DBUILD_CMAKE_FROM_SOURCE:BOOL=OFF \
 		-DRUN_CMAKE_TEST:BOOL=OFF \
 		-DCMakeProject_BINARY_DISTRIBUTION_DIR="$TERMUX_PREFIX/opt/cmake-wheel-dist"
+
+	# Convert it to a generic wheel
+	mv ./dist/cmake-$TERMUX_PKG_VERSION-cp311-cp311-linux_$TERMUX_ARCH.whl \
+		./dist/cmake-$TERMUX_PKG_VERSION-py3-none-linux_$TERMUX_ARCH.whl
 }
 
 tur_install_wheel_license() {
-	local _lib
-	for _lib in libarchive jsoncpp libnghttp2 rhash libssh2 libuv libxml2; do
-		cp $TERMUX_PREFIX/share/doc/$_lib/LICENSE $_lib-LICENSE
-	done
+	cp $TERMUX_PREFIX/share/doc/libarchive/copyright libarchive-LICENSE
+	cp $TERMUX_PREFIX/share/doc/jsoncpp/copyright jsoncpp-LICENSE
+	cp $TERMUX_PREFIX/share/doc/rhash/copyright rhash-LICENSE
+	cp $TERMUX_PREFIX/share/doc/libuv/LICENSE libuv-LICENSE
+	cp $TERMUX_PREFIX/share/doc/libxml2/copyright libxml2-LICENSE
 }

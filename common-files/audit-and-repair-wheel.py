@@ -30,9 +30,10 @@ TERMUX_EXCLUDE_LIBRARIES = [
     # C++ runtime library
     "libc++_shared.so",
     # Termux essentials
-    "libandroid-support.so", "libtermux-exec.so", "libcurl.so", "libiconv.so",
+    "libandroid-support.so", "libtermux-exec.so", "libiconv.so",
     "libexpat.so.1", "libz.so.1", "liblzma.so.5", "libbz2.so.1.0",
     "libssl.so.3", "libcrypto.so.3", 
+    "libcurl.so", "libcares.so", "libnghttp2.so", "libnghttp3.so", "libssh2.so",
     # libpython* libraries
     "libpython3.so",
     "libpython3.7m.so.1.0", "libpython3.8.so.1.0", "libpython3.9.so.1.0",

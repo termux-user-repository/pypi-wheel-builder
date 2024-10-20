@@ -1,0 +1,47 @@
+[
+  {
+    "name": "libarchive",
+    "libs": [
+      "libarchive"
+    ],
+    "licenses": [
+      "libarchive-LICENSE"
+    ]
+  },
+  {
+    "name": "jsoncpp",
+    "libs": [
+      "libjsoncpp"
+    ],
+    "licenses": [
+      "jsoncpp-LICENSE"
+    ]
+  },
+  {
+    "name": "rhash",
+    "libs": [
+      "librhash"
+    ],
+    "licenses": [
+      "rhash-LICENSE"
+    ]
+  },
+  {
+    "name": "libuv",
+    "libs": [
+      "libuv"
+    ],
+    "licenses": [
+      "libuv-LICENSE"
+    ]
+  },
+  {
+    "name": "libxml2",
+    "libs": [
+      "libxml2"
+    ],
+    "licenses": [
+      "libxml2-LICENSE"
+    ]
+  }
+]

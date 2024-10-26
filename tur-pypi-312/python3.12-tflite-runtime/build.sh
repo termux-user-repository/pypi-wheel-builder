@@ -2,12 +2,16 @@ TERMUX_PKG_HOMEPAGE=https://www.tensorflow.org/lite
 TERMUX_PKG_DESCRIPTION="TensorFlow Lite Python bindings"
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="2.17.0"
+TERMUX_PKG_VERSION="2.18.0"
 TERMUX_PKG_SRCURL=git+https://github.com/tensorflow/tensorflow
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="python, python-numpy, python-pip"
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 TERMUX_PKG_PYTHON_COMMON_DEPS="setuptools, wheel, pybind11"
+TERMUX_PKG_HOSTBUILD=true
+TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
+-DTFLITE_HOST_TOOLS_DIR=$TERMUX_PKG_HOSTBUILD_DIR
+"
 
 TERMUX_PYTHON_VERSION=3.12
 TERMUX_PYTHON_HOME=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}
@@ -18,6 +22,13 @@ TUR_AUTO_BUILD_WHEEL=false
 TUR_WHEEL_DIR="build-wheel/dist"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
+
+termux_step_host_build() {
+	termux_setup_cmake
+
+	cmake "$TERMUX_PKG_SRCDIR"/tensorflow/lite
+	cmake --build . --verbose -j $TERMUX_PKG_MAKE_PROCESSES -t flatbuffers-flatc
+}
 
 termux_step_pre_configure() {
 	termux_setup_cmake

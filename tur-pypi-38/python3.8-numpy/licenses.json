@@ -1,0 +1,11 @@
+[
+  {
+    "name": "openblas",
+    "libs": [
+      "libopenblas"
+    ],
+    "licenses": [
+      "libopenblas-LICENSE"
+    ]
+  }
+]

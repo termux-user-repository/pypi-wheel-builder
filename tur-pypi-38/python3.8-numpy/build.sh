@@ -17,6 +17,7 @@ TERMUX_PYTHON_VERSION=3.8
 TERMUX_PYTHON_HOME=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python38-crossenv-prefix-$TERMUX_ARCH
 TUR_AUTO_AUDIT_WHEEL=true
+TUR_LIB_LICENSE_JSON="$TERMUX_PKG_BUILDER_DIR/licenses.json"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
 
@@ -28,4 +29,9 @@ termux_step_pre_configure() {
 	export MATHLIB="m"
 
 	LDFLAGS+=" -lm"
+}
+
+tur_install_wheel_license() {
+	# Install the license of libopenblas
+	cp $TERMUX_PREFIX/share/doc/libopenblas/copyright libopenblas-LICENSE
 }

@@ -41,7 +41,8 @@ termux_step_make_install() {
 	export PYO3_CROSS_LIB_DIR=$TERMUX_PREFIX/lib
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/site-packages
 
-	export RUSTFLAGS="-C link-args=-L$TERMUX_PREFIX/lib $RUSTFLAGS"
+	local env_host=$(printf $CARGO_TARGET_NAME | tr a-z A-Z | sed s/-/_/g)
+	export CARGO_TARGET_${env_host}_RUSTFLAGS+=" -C link-arg=-L$TERMUX_PREFIX/lib"
 
 	build-python -m maturin build --release --skip-auditwheel --target $CARGO_BUILD_TARGET
 

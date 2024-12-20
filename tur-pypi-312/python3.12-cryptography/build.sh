@@ -3,9 +3,9 @@ TERMUX_PKG_DESCRIPTION="Provides cryptographic recipes and primitives to Python 
 TERMUX_PKG_LICENSE="Apache-2.0, BSD 3-Clause"
 TERMUX_PKG_LICENSE_FILE="LICENSE, LICENSE.APACHE, LICENSE.BSD"
 TERMUX_PKG_MAINTAINER="@termux"
-TERMUX_PKG_VERSION="42.0.8"
+TERMUX_PKG_VERSION="44.0.0"
 TERMUX_PKG_SRCURL=https://github.com/pyca/cryptography/archive/refs/tags/${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=38ee4ce0804e4003e3093db8342cd7e6ee65614c8bbf70c98f1716e0f33709ed
+TERMUX_PKG_SHA256=b2232d62504ba4cca97136582e86564ac75ec1124dfddb19d83f0eb26548d18d
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="openssl, python, python-pip"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -36,5 +36,12 @@ termux_step_post_make_install() {
 
 	mkdir -p wheels
 	local _pyver="${TERMUX_PYTHON_VERSION/./}"
-	mv cryptography-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_$TERMUX_ARCH.whl ./wheels/
+	# Fix wheel name for arm
+	if [ "$TERMUX_ARCH" = "arm" ]; then
+		mv cryptography-$TERMUX_PKG_VERSION-cp37-abi3-linux_armv7l.whl \
+			./wheels/cryptography-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_armv7l.whl
+	else
+	mv cryptography-$TERMUX_PKG_VERSION-cp37-abi3-linux_$TERMUX_ARCH.whl \
+		./wheels/cryptography-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_$TERMUX_ARCH.whl
+	fi
 }

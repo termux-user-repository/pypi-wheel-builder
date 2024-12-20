@@ -36,6 +36,12 @@ termux_step_post_make_install() {
 
 	mkdir -p wheels
 	local _pyver="${TERMUX_PYTHON_VERSION/./}"
+	# Fix wheel name for arm
+	if [ "$TERMUX_ARCH" = "arm" ]; then
+		mv cryptography-$TERMUX_PKG_VERSION-cp37-abi3-linux_armv7l.whl \
+			./wheels/cryptography-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_armv7l.whl
+	else
 	mv cryptography-$TERMUX_PKG_VERSION-cp37-abi3-linux_$TERMUX_ARCH.whl \
 		./wheels/cryptography-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_$TERMUX_ARCH.whl
+	fi
 }

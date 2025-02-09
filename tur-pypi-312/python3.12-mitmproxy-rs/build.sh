@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/mitmproxy/mitmproxy_rs
 TERMUX_PKG_DESCRIPTION="The Rust bits in mitmproxy"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="0.11.1"
+TERMUX_PKG_VERSION="0.11.2"
 TERMUX_PKG_SRCURL=https://github.com/mitmproxy/mitmproxy_rs/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=f9604fcb4a3dcc7fff7cc962a2300f92b5cf77f31129626ee7aeefeb4eb45273
+TERMUX_PKG_SHA256=4d74364e2a1a4ae956cb687b3308618e4dff3dd29d73491fa311bb26a519439e
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, openssl, python"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
@@ -38,7 +38,10 @@ termux_step_make_install() {
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/site-packages
 
 	cd mitmproxy-rs
-	build-python -m maturin build --release --skip-auditwheel --target $CARGO_BUILD_TARGET
+	build-python -m maturin build \
+				--target $CARGO_BUILD_TARGET \
+				--release --skip-auditwheel \
+				--interpreter python${TERMUX_PYTHON_VERSION}
 
 	local _pyver="${TERMUX_PYTHON_VERSION/./}"
 	# Fix wheel name, although it it built with tag `cp310-abi3`, but it is linked against `python3.x.so`

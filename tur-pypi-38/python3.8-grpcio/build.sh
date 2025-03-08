@@ -8,6 +8,7 @@ TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python3.8, zlib"
 TERMUX_PKG_BUILD_DEPENDS="python3.8-cross"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools, 'Cython>=3.0.0'"
 TERMUX_PKG_BUILD_IN_SRC=true
+# Since version 1.71.0, grpcio has dropped support for Python 3.8.
 TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 

@@ -1,0 +1,14 @@
+--- a/setup.py
++++ b/setup.py
+@@ -1,4 +1,4 @@
+-from setuptools import setup
++from setuptools import setup, Extension
+ from setuptools_rust import Binding, RustExtension
+ 
+ setup(
+@@ -16,4 +16,5 @@
+     package_data={"tiktoken": ["py.typed"]},
+     packages=["tiktoken", "tiktoken_ext"],
+     zip_safe=False,
++    ext_modules=[Extension('dummy', sources=[])],
+ )

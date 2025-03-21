@@ -51,10 +51,10 @@ termux_step_make_install() {
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/site-packages
 
 	build-python -m maturin build \
- 				--target $CARGO_BUILD_TARGET \
- 				--release --skip-auditwheel \
- 				--interpreter python${TERMUX_PYTHON_VERSION} \
- 				-Z build-std
+				--target $CARGO_BUILD_TARGET \
+				--release --skip-auditwheel \
+				--interpreter python${TERMUX_PYTHON_VERSION} \
+				-Z build-std
 
 	local _pyver="${TERMUX_PYTHON_VERSION/./}"
 	# Fix wheel name, although it it built with tag `cp39-abi3`, but it is linked against `python3.x.so`

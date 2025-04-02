@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/pydantic/pydantic-core
 TERMUX_PKG_DESCRIPTION="Core validation logic for pydantic written in rust"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="2.33.0"
+TERMUX_PKG_VERSION="2.33.1"
 TERMUX_PKG_SRCURL=https://github.com/pydantic/pydantic-core/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=8ddef852cf968f3b5a857db1749f898ac5209deea78681dc1b8ae018341dbf27
+TERMUX_PKG_SHA256=02f956a1302a2da4d736d08f78b2be9642e4a2a342bc442f30c955e5bb1ac07e
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, python"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'typing-extensions==4.6.0'"

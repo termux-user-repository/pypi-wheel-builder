@@ -6,6 +6,7 @@
 /root-packages/
 /scripts/
 /x11-packages/
+/tur/
 /CODEOWNERS
 /CONTRIBUTING.md
 /build-all.sh

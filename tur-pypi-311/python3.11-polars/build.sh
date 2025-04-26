@@ -78,6 +78,7 @@ termux_step_pre_configure() {
 termux_step_make() {
 	export CARGO_BUILD_TARGET=${CARGO_TARGET_NAME}
 	export PYO3_CROSS_LIB_DIR=$TERMUX_PREFIX/lib
+	export PYO3_CROSS_PYTHON_VERSION=$TERMUX_PYTHON_VERSION
 	export PYTHONPATH=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/site-packages
 
 	build-python -m maturin build \

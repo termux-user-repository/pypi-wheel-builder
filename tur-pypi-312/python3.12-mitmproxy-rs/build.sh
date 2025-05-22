@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/mitmproxy/mitmproxy_rs
 TERMUX_PKG_DESCRIPTION="The Rust bits in mitmproxy"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="0.11.5"
+TERMUX_PKG_VERSION="0.12.0"
 TERMUX_PKG_SRCURL=https://github.com/mitmproxy/mitmproxy_rs/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=7b9743ba3d8a2d1c7cd606f3aad35dd2c7fefa07c0a8c62973632880d3471191
+TERMUX_PKG_SHA256=7bbb2c391792b77514d09429e4b83661cf6009383cbfe20d14c3410597e1e7cb
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, openssl, python"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel"
@@ -44,13 +44,13 @@ termux_step_make_install() {
 				--interpreter python${TERMUX_PYTHON_VERSION}
 
 	local _pyver="${TERMUX_PYTHON_VERSION/./}"
-	# Fix wheel name, although it it built with tag `cp310-abi3`, but it is linked against `python3.x.so`
+	# Fix wheel name, although it it built with tag `cp312-abi3`, but it is linked against `python3.x.so`
 	# so it will not work on other pythons.
 	if [ "$TERMUX_ARCH" = "arm" ]; then
-		mv ../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-cp310-abi3-linux_armv7l.whl \
+		mv ../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-cp312-abi3-linux_armv7l.whl \
 			../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-py$_pyver-none-any.whl
 	else
-		mv ../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-cp310-abi3-linux_$TERMUX_ARCH.whl \
+		mv ../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-cp312-abi3-linux_$TERMUX_ARCH.whl \
 			../target/wheels/mitmproxy_rs-$TERMUX_PKG_VERSION-cp$_pyver-cp$_pyver-linux_$TERMUX_ARCH.whl
 	fi
 

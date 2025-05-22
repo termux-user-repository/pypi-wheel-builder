@@ -1,0 +1,22 @@
+--- a/onnxruntime/test/shared_lib/custom_op_utils.cc
++++ b/onnxruntime/test/shared_lib/custom_op_utils.cc
+@@ -1,6 +1,11 @@
+ // Copyright (c) Microsoft Corporation. All rights reserved.
+ // Licensed under the MIT License.
+ 
++#if defined(__ANDROID__) && !defined(__LP64__)
++#pragma GCC diagnostic push
++#pragma GCC diagnostic ignored "-Wshorten-64-to-32"
++#endif
++
+ #include <gsl/gsl>
+ #include "gtest/gtest.h"
+ 
+@@ -659,3 +664,7 @@
+ 
+   return nullptr;
+ }
++
++#if defined(__ANDROID__) && !defined(__LP64__)
++#pragma GCC diagnostic pop
++#endif

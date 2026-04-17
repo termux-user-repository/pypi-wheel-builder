@@ -38,6 +38,7 @@ TERMUX_EXCLUDE_LIBRARIES = [
     "libpython3.so",
     "libpython3.7m.so.1.0", "libpython3.8.so.1.0", "libpython3.9.so.1.0",
     "libpython3.10.so.1.0", "libpython3.11.so.1.0", "libpython3.12.so.1.0",
+    "libpython3.13.so.1.0",
     # TODO: Python package dependencies
     # TODO: X related libraries
     "libX11.so", "libX11.so.6", "libXext.so", "libXrender.so", "libICE.so",

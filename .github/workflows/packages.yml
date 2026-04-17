@@ -226,6 +226,13 @@ jobs:
     if: github.event_name != 'pull_request'
     needs: build
     steps:
+    - name: Clone tur-pypi
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 1
+        token: ${{ secrets.GH_TOKEN }}
+        path: ${{ github.workspace }}
+
     - name: Download manifest artifacts
       uses: actions/download-artifact@v4
       with:

@@ -117,6 +117,36 @@ tur_elf_cleaner_for_wheel() {
 	tur_update_record_file_of_wheel $filepath
 }
 
+tur_normalize_android_wheel_platform_tag() {
+	local filepath="$(realpath $1)"
+	local dirpath="$(dirname $filepath)"
+	local filename="$(basename $filepath)"
+	local normalized_name="$filename"
+
+	# Normalize Android wheel platform tags to the expected ABI naming.
+	case "$filename" in
+		*android_aarch64.whl)
+			normalized_name="${filename%android_aarch64.whl}android_arm64_v8a.whl"
+			;;
+		*android_arm.whl)
+			normalized_name="${filename%android_arm.whl}android_armeabi_v7a.whl"
+			;;
+		*android_i686.whl)
+			normalized_name="${filename%android_i686.whl}android_x86.whl"
+			;;
+		*android_x86_64.whl)
+			normalized_name="${filename%android_x86_64.whl}android_x86_64.whl"
+			;;
+	esac
+
+	if [ "$normalized_name" != "$filename" ]; then
+		mv "$filepath" "$dirpath/$normalized_name"
+		filepath="$dirpath/$normalized_name"
+	fi
+
+	echo "$filepath"
+}
+
 tur_build_wheel() {
 	pushd $TERMUX_PKG_BUILDDIR
 
@@ -132,6 +162,8 @@ tur_build_wheel() {
 	shopt -s nullglob
 	local _whl _whl_name _whl_version
 	for _whl in $TERMUX_PKG_BUILDDIR/$TUR_WHEEL_DIR/*.whl; do
+		_whl="$(tur_normalize_android_wheel_platform_tag "$_whl")"
+
 		# Check wheel version
 		# The python wheel is constructed with `{name}-{version}-{platform}-{abi}-{tag}`
 		_whl_name="$(basename $_whl)"

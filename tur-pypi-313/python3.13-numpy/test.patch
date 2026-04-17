@@ -1,0 +1,11 @@
+--- a/numpy/_core/tests/test_mem_policy.py
++++ b/numpy/_core/tests/test_mem_policy.py
+@@ -21,6 +21,8 @@
+     """
+     if sys.platform.startswith('cygwin'):
+         pytest.skip('link fails on cygwin')
++    if os.path.exists("/system/bin/app_process"):
++        pytest.skip('link fails on Android')
+     if IS_WASM:
+         pytest.skip("Can't build module inside Wasm")
+     if IS_EDITABLE:

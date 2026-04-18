@@ -123,6 +123,10 @@ tur_normalize_android_wheel_platform_tag() {
 	local filename="$(basename $filepath)"
 	local normalized_name="$filename"
 
+	if [[ "$filename" == *-abi3-* ]]; then
+		termux_error_exit "Unsupported abi3 wheel: $filename"
+	fi
+
 	# Normalize Android wheel platform tags to the expected ABI naming.
 	case "$filename" in
 		*android_aarch64.whl)

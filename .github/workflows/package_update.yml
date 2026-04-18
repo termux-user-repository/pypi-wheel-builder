@@ -1,5 +1,5 @@
 ##
-##  Copyright 2020 Termux
+##  Copyright 2026 Termux
 ##
 ##  Licensed under the Apache License, Version 2.0 (the "License");
 ##  you may not use this file except in compliance with the License.
@@ -17,6 +17,15 @@
 name: Package updates
 
 on:
+  push:
+    branches:
+    - '**'
+    - '!main'
+    paths:
+    - 'tur-pypi-*/**'
+  pull_request:
+    paths:
+    - 'tur-pypi-*/**'
   schedule:
     - cron: "0 */6 * * *"
   workflow_dispatch:
@@ -27,30 +36,93 @@ on:
         required: false
 
 jobs:
-  update-packages:
-    if: github.repository == 'termux-user-repository/pypi-wheel-builder'
-    runs-on: ubuntu-latest
+  update-packages-dry-run:
+    permissions:
+      contents: read
+    if: github.event_name == 'pull_request' || github.event_name == 'push'
+    runs-on: ubuntu-slim
     steps:
-      - name: Clone tur-pypi
-        uses: actions/checkout@v4
+      - name: Clone repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Merge repos
+        run: ./setup-environment.sh
+      - name: Gather build summary
+        run: |
+          BASE_REF="${{ github.event.pull_request.base.ref }}"
+          git fetch origin "${BASE_REF:-main}" 2>/dev/null
+          BASE_COMMIT="$(git merge-base "origin/${BASE_REF:-main}" "HEAD")"
+          # We are intentionally not using .commits[0].id and .commits[-1].id as github seems to
+          # only send 20 commits in the payload for github action runs instead of the 2048 documented
+          # limit. Perhaps 2048 is the limit just for webhooks, where they haven't documented
+          # properly that the limit for github actions is only 20:
+          #
+          # https://docs.github.com/en/webhooks/webhook-events-and-payloads#push
+          OLD_COMMIT="${{ github.event.before }}"
+          HEAD_COMMIT="${{ github.event.after }}"
+          if [ -z "${{ github.event.pull_request.base.sha }}" ]; then
+            if ! git log "$OLD_COMMIT" > /dev/null; then
+              if [ "$(git branch --show-current)" = "main" ]; then
+                echo "Force push detected on main branch. Unable to proceed."
+                exit 1
+              else
+                OLD_COMMIT=$(git fetch origin main >&2; git merge-base origin/main $HEAD_COMMIT)
+              fi
+            fi
+            echo "Processing commit range: ${OLD_COMMIT}..${HEAD_COMMIT}"
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${OLD_COMMIT}" "${HEAD_COMMIT}")
+          else
+            # Pull requests.
+            echo "Processing pull request #${{ github.event.pull_request.number }}: ${BASE_COMMIT}..HEAD"
+            CHANGED_FILES=$(git diff-tree --no-commit-id --name-only -r "${BASE_COMMIT}" "HEAD")
+          fi
+          for repo_path in $(jq --raw-output 'del(.pkg_format) | keys | .[]' repo.json); do
+            repo=$(jq --raw-output '.["'${repo_path}'"].name' repo.json)
+            # Parse changed files and identify new packages and modified packages.
+            # Create lists of those packages that will be passed for
+            # further processing.
+            while read -r file; do
+              if [[ "$file" == ${repo_path}/* && "$file" =~ ^${repo_path}/([.a-z0-9+-]*)/.*$ ]] \
+                    && pkg=${BASH_REMATCH[1]} && [[ -d "${repo_path}/${pkg}" ]]; then
+                  echo "$pkg"
+              fi
+            done <<< ${CHANGED_FILES}
+          # Fix so that lists do not contain duplicates and dump to file for processing in the next step
+          done | sort -u > ./built-packages.txt
+      - name: Process package updates
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BUILD_PACKAGES: "false"
+          CREATE_ISSUE: "false"
+          GIT_COMMIT_PACKAGES: "false"
+          GIT_PUSH_PACKAGES: "false"
+        run: |
+          readarray -t packages < ./built-packages.txt
+          if [ -n "${packages[*]}" ]; then
+            ./scripts/bin/update-packages "${packages[@]}"
+          fi
+
+  update-packages:
+    permissions:
+      issues: write
+      contents: write
+    if: github.event_name != 'pull_request' && github.event_name != 'push' && github.repository == 'termux-user-repository/pypi-wheel-builder'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v6
         with:
           fetch-depth: 1
           token: ${{ secrets.GH_TOKEN }}
-          path: ${{ github.workspace }}
 
       - name: Clone tur
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           repository: termux-user-repository/tur
           fetch-depth: 1
           path: ${{ github.workspace }}/tur-repo
-
-      - name: Free additional disk space
-        run: |
-          sudo apt purge -yq $(dpkg -l | grep '^ii' | awk '{ print $2 }' | grep -P '(aspnetcore|cabal-|dotnet-|ghc-|libmono|php)') \
-            firefox google-chrome-stable microsoft-edge-stable mono-runtime-common monodoc-manual ruby
-          sudo apt autoremove -yq
-          sudo rm -fr /opt/hostedtoolcache /usr/local /usr/share/dotnet /usr/share/swift
 
       - name: Merge repos
         run: |
@@ -58,18 +130,45 @@ jobs:
           rm -rf ./tur-repo
           ./setup-environment.sh
 
+      - name: Enable zram
+        uses: ./.github/actions/zram
+        with:
+          algorithm: zstd
+          size: 16G
+          priority: 100
+          device_name: /dev/zram0
+
+      - name: Load Docker image
+        run: |
+          ./scripts/run-docker.sh true
+
+      - name: Free additional disk space
+        run: ./scripts/free-space.sh
+
+      - name: Install needed dependencies for package updates
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends \
+            curl \
+            python3 \
+            jq
+
       - name: Process package updates
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           BUILD_PACKAGES: "true"
+          CREATE_ISSUE: "true"
           GIT_COMMIT_PACKAGES: "true"
           GIT_PUSH_PACKAGES: "true"
-          CREATE_ISSUE: "true"
+          MANUAL_INPUT_PACKAGES: ${{ github.event.inputs.packages }}
         run: |
           git config --global user.name "TUR Github Actions"
           git config --global user.email "abc@example.com"
           if [ "${{ github.event_name }}" == "workflow_dispatch" ]; then
-            ./scripts/bin/update-packages ${{ github.event.inputs.packages }}
+            # Ensure MANUAL_INPUT_PACKAGES is newline free, and put it
+            # into an array
+            read -a PACKAGES <<< "${MANUAL_INPUT_PACKAGES//$'\n'/ }"
+            ./scripts/bin/update-packages "${PACKAGES[@]}"
           else
             ./scripts/bin/update-packages "@all"
           fi

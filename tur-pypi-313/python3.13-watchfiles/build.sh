@@ -3,6 +3,7 @@ TERMUX_PKG_DESCRIPTION="Simple, modern and fast file watching and code reload fo
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.1.1"
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://github.com/samuelcolvin/watchfiles/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
 TERMUX_PKG_SHA256=48fdf058a68dd763ddb246319f3fd16d6f2a0c713fb89b7c9aa2aca1e39d1dc9
 TERMUX_PKG_AUTO_UPDATE=true

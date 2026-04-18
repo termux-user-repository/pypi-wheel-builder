@@ -40,3 +40,7 @@ scripts/.vagrant/
 
 # VSCode
 .vscode
+
+# Python
+__pycache__/
+*.pyc

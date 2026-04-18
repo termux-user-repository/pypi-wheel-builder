@@ -5,6 +5,7 @@ import json
 import re
 import subprocess
 import sys
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -117,6 +118,22 @@ def ensure_repo_exists(full_repo: str) -> None:
     run_cmd(["gh", "repo", "create", full_repo, "--template", TEMPLATE_REPO, "--public"])
 
 
+def wait_for_repo_ready(full_repo: str, retries: int = 10, delay_seconds: float = 2.0) -> None:
+    repo_url = f"https://github.com/{full_repo}.git"
+    last_error = ""
+
+    for attempt in range(1, retries + 1):
+        probe = run_cmd(["git", "ls-remote", repo_url, "HEAD"], capture_output=True, check=False)
+        if probe.returncode == 0 and probe.stdout.strip():
+            return
+
+        last_error = probe.stderr.strip() or probe.stdout.strip()
+        if attempt < retries:
+            time.sleep(delay_seconds)
+
+    raise RuntimeError(f"Could not resolve HEAD for repository: {full_repo}. Last error: {last_error}")
+
+
 def ensure_tag_exists(full_repo: str, tag: str) -> None:
     tag_probe = run_cmd(
         ["gh", "api", f"repos/{full_repo}/git/ref/tags/{tag}"],
@@ -205,6 +222,7 @@ def main() -> int:
 
         print(f"Processing {wheel} -> repo={full_repo} tag={tag} pyversion={pyversion}")
         ensure_repo_exists(full_repo)
+        wait_for_repo_ready(full_repo)
         ensure_tag_exists(full_repo, tag)
         ensure_release_exists(full_repo, tag)
         upload_wheel(full_repo, tag, wheel)

@@ -1,0 +1,39 @@
+Only search packages from tur-pypi repository when auto-updating.
+--- a/scripts/bin/update-packages
++++ b/scripts/bin/update-packages
+@@ -507,7 +507,7 @@
+ 
+ if [[ "$1" == "@all" ]]; then
+ 	declare -a PACKAGE_LIST=()
+-	for channel in "tur" "tur-on-device" "tur-multilib" "tur-hacking"; do
++	for channel in "tur-pypi-313"; do
+ 		for pkg_dir in "${channel}"/*; do
+ 			PACKAGE_LIST+=("$pkg_dir")
+ 		done
+@@ -520,7 +520,7 @@
+ for pkg in "$@"; do
+ 	pkg_dir="${pkg}"
+ 	if [[ ! -d "${pkg}" ]]; then # If only package name is given, try to find its directory.
+-		for channel in "tur" "tur-on-device" "tur-multilib" "tur-hacking"; do
++		for channel in "tur-pypi-313"; do
+ 			if [[ -d "${channel}/${pkg}" ]]; then
+ 				pkg_dir="${channel}/${pkg}"
+ 				break
+--- a/scripts/bin/build-package-dry-run-simulation.sh
++++ b/scripts/bin/build-package-dry-run-simulation.sh
+@@ -16,6 +16,15 @@
+ tur-on-device
+ tur-multilib
+ tur-hacking
++tur-pypi-b
++tur-pypi-generic
++tur-pypi-37
++tur-pypi-38
++tur-pypi-39
++tur-pypi-310
++tur-pypi-311
++tur-pypi-312
++tur-pypi-313
+ "
+ 
+ # Please keep synchronized with the logic of lines 468-547 of 'build-package.sh'.

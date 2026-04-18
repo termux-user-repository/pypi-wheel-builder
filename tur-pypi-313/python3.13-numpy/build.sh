@@ -2,8 +2,7 @@ TERMUX_PKG_HOMEPAGE=https://numpy.org/
 TERMUX_PKG_DESCRIPTION="The fundamental package for scientific computing with Python"
 TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="2.4.3"
-TERMUX_PKG_REVISION=1
+TERMUX_PKG_VERSION="2.4.4"
 TERMUX_PKG_SRCURL=git+https://github.com/numpy/numpy
 TERMUX_PKG_DEPENDS="libc++, libopenblas, python"
 TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel, 'Cython>=3.0.6', 'meson-python>=0.18.0', build"

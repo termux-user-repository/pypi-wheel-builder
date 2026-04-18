@@ -47,8 +47,17 @@ jobs:
         with:
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Clone tur
+        uses: actions/checkout@v6
+        with:
+          repository: termux-user-repository/tur
+          fetch-depth: 1
+          path: ${{ github.workspace }}/tur-repo
       - name: Merge repos
-        run: ./setup-environment.sh
+        run: |
+          cp -rn ./tur-repo/* ./
+          rm -rf ./tur-repo
+          ./setup-environment.sh
       - name: Gather build summary
         run: |
           BASE_REF="${{ github.event.pull_request.base.ref }}"

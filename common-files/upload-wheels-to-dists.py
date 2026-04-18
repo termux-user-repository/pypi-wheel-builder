@@ -12,8 +12,6 @@ from pathlib import Path
 ORG = "tur-pypi-dists"
 TEMPLATE_REPO = "tur-pypi-dists/python-package-template"
 WHEEL_DIR = Path("./output")
-PAGES_REPO = "termux-user-repository/pypi"
-PAGES_EVENT_TYPE = "from_wheel"
 
 
 def run_cmd(
@@ -21,14 +19,12 @@ def run_cmd(
     *,
     capture_output: bool = False,
     check: bool = True,
-    input_text: str | None = None,
 ) -> subprocess.CompletedProcess:
     return subprocess.run(
         args,
         check=check,
         text=True,
         capture_output=capture_output,
-        input=input_text,
     )
 
 
@@ -182,34 +178,12 @@ def upload_wheel(full_repo: str, tag: str, wheel_path: Path) -> None:
     run_cmd(["gh", "release", "upload", "--clobber", "-R", repo_url, tag, str(wheel_path)])
 
 
-def dispatch_manifest_updates(records: list[dict[str, str]]) -> None:
-    if not records:
-        return
-
-    payload = {
-        "event_type": PAGES_EVENT_TYPE,
-        "client_payload": {
-            "source": "pypi-wheel-builder",
-            "wheels": records,
-        },
-    }
-    run_cmd(
-        ["gh", "api", f"repos/{PAGES_REPO}/dispatches", "--method", "POST", "--input", "-"],
-        input_text=json.dumps(payload),
-    )
-
-
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Upload wheel files and generate manifest records")
     parser.add_argument(
         "--manifest-out",
         default="",
         help="Write JSONL manifest records to this file path",
-    )
-    parser.add_argument(
-        "--dispatch",
-        action="store_true",
-        help="Dispatch manifest records to pages repository after upload",
     )
     return parser.parse_args()
 
@@ -260,10 +234,6 @@ def main() -> int:
             for row in records:
                 fp.write(json.dumps(row, sort_keys=True, ensure_ascii=False) + "\n")
         print(f"Wrote {len(records)} wheel records to {out_path}")
-
-    if args.dispatch:
-        dispatch_manifest_updates(records)
-        print(f"Dispatched {len(records)} wheel records to {PAGES_REPO}")
 
     return 0
 

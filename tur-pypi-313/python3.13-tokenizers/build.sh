@@ -3,6 +3,7 @@ TERMUX_PKG_DESCRIPTION="Fast State-of-the-Art Tokenizers optimized for Research 
 TERMUX_PKG_LICENSE="Apache-2.0"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="0.21.2"
+TERMUX_PKG_REVISION=1
 TERMUX_PKG_SRCURL=https://github.com/huggingface/tokenizers/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
 TERMUX_PKG_SHA256=5b2140475bbaeb9dbbbbd72a39aff5f2490cdd66acc26d19b0c8310f51688872
 TERMUX_PKG_AUTO_UPDATE=true
@@ -68,12 +69,16 @@ termux_step_make_install() {
 			echo "ERROR: Unknown architecture: $TERMUX_ARCH"
 			return 1 ;;
 	esac
+	local pack_name="tokenizers"
+	local pyversion="${TERMUX_PYTHON_VERSION/./}"
 	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp39-abi3-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
-	local cross_wheel_ext="${TERMUX_PKG_VERSION}-cp${TERMUX_PYTHON_VERSION/./}-none-any.whl"
+	local cross_wheel_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-none-any.whl"
+	local release_whl_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-cp${pyversion}-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
 
-	local _whl_orig="target/wheels/tokenizers-${native_wheel_ext}"
-	local _whl_dest="target/wheels/tokenizers-${cross_wheel_ext}"
+	local _whl_orig="target/wheels/${pack_name}-${native_wheel_ext}"
+	local _whl_dest="target/wheels/${pack_name}-${cross_wheel_ext}"
+	local _whl_release="target/wheels/${pack_name}-${release_whl_ext}"
 	mv "$_whl_orig" "$_whl_dest"
 	pip install --force-reinstall --no-deps --prefix "$TERMUX_PREFIX" "$_whl_dest"
-	mv "$_whl_dest" "$_whl_orig"
+	mv "$_whl_dest" "$_whl_release"
 }

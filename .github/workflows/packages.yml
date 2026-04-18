@@ -210,10 +210,6 @@ jobs:
         # Files containing certain symbols (e.g. ":") will cause failure in actions/upload-artifact.
         # Archiving *.whl files in a tarball to avoid issues with uploading.
         tar cf artifacts/wheels-${{ matrix.target_arch }}-${{ github.sha }}.tar wheels
-    - name: Upload to GitHub Release
-      if: github.event_name != 'pull_request'
-      run: |
-        python3 ./common-files/upload-wheels-to-dists.py --manifest-out ./artifacts/manifest-${{ matrix.target_arch }}.jsonl
     - name: Store *.whl files
       if: always()
       uses: actions/upload-artifact@v4
@@ -221,7 +217,7 @@ jobs:
         name: wheels-${{ matrix.target_arch }}-${{ github.sha }}
         path: ./artifacts
 
-  trigeer:
+  upload-and-trigger:
     runs-on: ubuntu-22.04
     if: github.event_name != 'pull_request'
     needs: build
@@ -233,12 +229,20 @@ jobs:
         token: ${{ secrets.GH_TOKEN }}
         path: ${{ github.workspace }}
 
-    - name: Download manifest artifacts
+    - name: Download wheel artifacts
       uses: actions/download-artifact@v4
       with:
         pattern: wheels-*-${{ github.sha }}
         path: ./collected-artifacts
         merge-multiple: true
+
+    - name: Upload to GitHub Release
+      run: |
+        mkdir -p ./output
+        for tarball in ./collected-artifacts/wheels-*.tar; do
+          tar xf "$tarball" -C ./output --strip-components=1
+        done
+        python3 ./common-files/upload-wheels-to-dists.py --manifest-out ./collected-artifacts/manifest-all.jsonl
 
     - name: Trigger pages generation
       env:

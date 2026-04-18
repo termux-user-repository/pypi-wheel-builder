@@ -221,6 +221,8 @@ jobs:
     runs-on: ubuntu-22.04
     if: github.event_name != 'pull_request'
     needs: build
+    env:
+      GH_TOKEN: ${{ secrets.GH_TOKEN }}
     steps:
     - name: Clone tur-pypi
       uses: actions/checkout@v4

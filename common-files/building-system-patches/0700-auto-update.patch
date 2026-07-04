@@ -15,13 +15,13 @@ Only search packages from tur-pypi repository when auto-updating.
  	pkg_dir="${pkg}"
  	if [[ ! -d "${pkg}" ]]; then # If only package name is given, try to find its directory.
 -		for channel in "tur" "tur-on-device" "tur-multilib" "tur-hacking"; do
-+		for channel in "tur-pypi-313"; do
++		for channel in "tur-pypi-314"; do
  			if [[ -d "${channel}/${pkg}" ]]; then
  				pkg_dir="${channel}/${pkg}"
  				break
 --- a/scripts/bin/build-package-dry-run-simulation.sh
 +++ b/scripts/bin/build-package-dry-run-simulation.sh
-@@ -16,6 +16,15 @@
+@@ -16,6 +16,16 @@
  tur-on-device
  tur-multilib
  tur-hacking
@@ -34,6 +34,7 @@ Only search packages from tur-pypi repository when auto-updating.
 +tur-pypi-311
 +tur-pypi-312
 +tur-pypi-313
++tur-pypi-314
  "
  
  # Please keep synchronized with the logic of lines 468-547 of 'build-package.sh'.

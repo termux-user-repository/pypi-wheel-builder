@@ -1,15 +1,40 @@
 --- a/setup.py
 +++ b/setup.py
-@@ -63,7 +63,7 @@
+@@ -62,8 +62,8 @@
+     CARES_INCLUDE += (os.path.join("third_party", "cares", "config_darwin"),)
  if "freebsd" in sys.platform:
      CARES_INCLUDE += (os.path.join("third_party", "cares", "config_freebsd"),)
- if "linux" in sys.platform:
+-if "linux" in sys.platform:
 -    CARES_INCLUDE += (os.path.join("third_party", "cares", "config_linux"),)
++if "linux" in sys.platform or "android" in sys.platform:
 +    CARES_INCLUDE += (os.path.join("third_party", "cares", "config_android"),)
  if "openbsd" in sys.platform:
      CARES_INCLUDE += (os.path.join("third_party", "cares", "config_openbsd"),)
  RE2_INCLUDE = (os.path.join("third_party", "re2"),)
-@@ -314,25 +314,25 @@
+@@ -269,7 +269,7 @@
+         # We need to statically link the C++ Runtime, only the C runtime is
+         # available dynamically
+         EXTRA_ENV_COMPILE_ARGS += " /MT"
+-    elif "linux" in sys.platform:
++    elif "linux" in sys.platform or "android" in sys.platform:
+         # GCC by defaults uses C17 so only C++17 needs to be specified.
+         EXTRA_ENV_COMPILE_ARGS += " -std=c++17"
+         EXTRA_ENV_COMPILE_ARGS += (
+@@ -285,11 +285,11 @@
+ 
+ if EXTRA_ENV_LINK_ARGS is None:
+     EXTRA_ENV_LINK_ARGS = ""
+-    if "linux" in sys.platform or "darwin" in sys.platform:
++    if "linux" in sys.platform or "android" in sys.platform or "darwin" in sys.platform:
+         EXTRA_ENV_LINK_ARGS += " -lpthread"
+         if check_linker_need_libatomic():
+             EXTRA_ENV_LINK_ARGS += " -latomic"
+-    if "linux" in sys.platform:
++    if "linux" in sys.platform or "android" in sys.platform:
+         EXTRA_ENV_LINK_ARGS += " -static-libgcc"
+ 
+ # Explicitly link Core Foundation framework for MacOS to ensure no symbol is
+@@ -318,25 +318,25 @@
          lambda x: "third_party/boringssl" not in x, CORE_C_FILES
      )
      CORE_C_FILES = filter(lambda x: "src/boringssl" not in x, CORE_C_FILES)
@@ -40,7 +65,16 @@
  
  EXTENSION_INCLUDE_DIRECTORIES = (
      (PYTHON_STEM,)
-@@ -375,7 +375,7 @@
+@@ -355,7 +355,7 @@
+ )
+ 
+ EXTENSION_LIBRARIES = ()
+-if "linux" in sys.platform:
++if "linux" in sys.platform or "android" in sys.platform:
+     EXTENSION_LIBRARIES += ("rt",)
+ if not "win32" in sys.platform:
+     EXTENSION_LIBRARIES += ("m",)
+@@ -380,7 +380,7 @@
  if BUILD_WITH_SYSTEM_ABSL:
      EXTENSION_LIBRARIES += tuple(
          lib.stem[3:]
@@ -49,3 +83,12 @@
      )
  
  DEFINE_MACROS = (("_WIN32_WINNT", 0x600),)
+@@ -469,7 +469,7 @@
+
+ LDFLAGS = tuple(EXTRA_LINK_ARGS)
+ CFLAGS = tuple(EXTRA_COMPILE_ARGS)
+-if "linux" in sys.platform or "darwin" in sys.platform:
++if "linux" in sys.platform or "android" in sys.platform or "darwin" in sys.platform:
+     pymodinit_type = "PyObject*" if PY3 else "void"
+     pymodinit = 'extern "C" __attribute__((visibility ("default"))) {}'.format(
+         pymodinit_type

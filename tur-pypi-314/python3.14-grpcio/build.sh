@@ -5,7 +5,7 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_SRCURL=git+https://github.com/grpc/grpc
 TERMUX_PKG_VERSION="1.73.1"
 TERMUX_PKG_DEPENDS="ca-certificates, libc++, openssl, python, python-pip, zlib"
-TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, setuptools, 'Cython>=3.0.0'"
+TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel, setuptools, 'Cython>=3.0.0'"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
@@ -36,8 +36,13 @@ termux_step_pre_configure() {
 }
 
 termux_step_post_massage() {
+	local _triple="$TERMUX_ARCH-linux-android"
+	if [ "$TERMUX_ARCH" == "arm" ]; then
+		_triple=arm-linux-androideabi
+	fi
+
 	# Ensure no liblog.so is linked
-	local _cygrpc_so="$TERMUX_PYTHON_HOME/site-packages/grpc/_cython/cygrpc.cpython-${TERMUX_PYTHON_VERSION/./}.so"
+	local _cygrpc_so="$TERMUX_PYTHON_HOME/site-packages/grpc/_cython/cygrpc.cpython-${TERMUX_PYTHON_VERSION/./}-${_triple}.so"
 	if [ ! -e "$_cygrpc_so" ]; then
 		termux_error_exit "Package ${TERMUX_PKG_NAME} doesn't build properly."
 	fi

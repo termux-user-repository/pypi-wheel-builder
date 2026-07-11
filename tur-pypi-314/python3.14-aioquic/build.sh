@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/aiortc/aioquic
 TERMUX_PKG_DESCRIPTION="QUIC and HTTP/3 implementation in Python"
 TERMUX_PKG_LICENSE="BSD 3-Clause"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="1.2.0"
+TERMUX_PKG_VERSION="1.3.0"
 TERMUX_PKG_SRCURL=https://github.com/aiortc/aioquic/archive/refs/tags/${TERMUX_PKG_VERSION}.tar.gz
-TERMUX_PKG_SHA256=65537a2bc63115b19715b2dcca41dd59c28cfbe5fdb515661700a961a8fc5581
+TERMUX_PKG_SHA256=85eaf031aa48a5d5755799d2f463e6f68c965636670459840939591465ca1281
 TERMUX_PKG_DEPENDS="python, python-pip"
 TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel"
 TERMUX_PKG_BUILD_IN_SRC=true
@@ -36,7 +36,7 @@ termux_step_make_install() {
 	esac
 	local pack_name="aioquic"
 	local pyversion="${TERMUX_PYTHON_VERSION/./}"
-	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp38-abi3-android_${TERMUX_ARCH}.whl"
+	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp310-abi3-android_${TERMUX_ARCH}.whl"
 	local cross_wheel_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-none-any.whl"
 	local release_whl_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-cp${pyversion}-android_${TERMUX_PKG_API_LEVEL}_${native_wheel_arch}.whl"
 

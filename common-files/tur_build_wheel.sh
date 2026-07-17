@@ -129,17 +129,17 @@ tur_normalize_android_wheel_platform_tag() {
 
 	# Normalize Android wheel platform tags to the expected ABI naming.
 	case "$filename" in
-		*android_aarch64.whl)
-			normalized_name="${filename%android_aarch64.whl}android_arm64_v8a.whl"
+		*android_aarch64.whl|*android_arm64_v8a.whl)
+			normalized_name="${filename%android_aarch64.whl}android_${TERMUX_PKG_API_LEVEL}_arm64_v8a.whl"
 			;;
-		*android_arm.whl)
-			normalized_name="${filename%android_arm.whl}android_armeabi_v7a.whl"
+		*android_arm.whl|*android_armeabi_v7a.whl)
+			normalized_name="${filename%android_arm.whl}android_${TERMUX_PKG_API_LEVEL}_armeabi_v7a.whl"
 			;;
-		*android_i686.whl)
-			normalized_name="${filename%android_i686.whl}android_x86.whl"
+		*android_i686.whl|*android_x86.whl)
+			normalized_name="${filename%android_i686.whl}android_${TERMUX_PKG_API_LEVEL}_x86.whl"
 			;;
 		*android_x86_64.whl)
-			normalized_name="${filename%android_x86_64.whl}android_x86_64.whl"
+			normalized_name="${filename%android_x86_64.whl}android_${TERMUX_PKG_API_LEVEL}_x86_64.whl"
 			;;
 	esac
 

@@ -1,0 +1,13 @@
+[
+  {
+    "name": "openblas",
+    "libs": [
+      "libandroid-complex-math",
+      "libopenblas"
+    ],
+    "licenses": [
+      "libandroid-complex-math-LICENSE",
+      "libopenblas-LICENSE"
+    ]
+  }
+]

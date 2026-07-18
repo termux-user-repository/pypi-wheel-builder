@@ -5,16 +5,17 @@ TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.11.1.1"
 TERMUX_PKG_SRCURL=git+https://github.com/scikit-build/ninja-python-distributions
 TERMUX_PKG_GIT_BRANCH="$TERMUX_PKG_VERSION"
-TERMUX_PKG_DEPENDS="libc++, python3.11"
+TERMUX_PKG_DEPENDS="libc++, python, python-pip"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-spawn-static"
-TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools-scm[toml]', scikit-build"
+TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel, 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 
-TERMUX_PYTHON_VERSION=3.11
+TERMUX_PYTHON_VERSION=3.14
 TERMUX_PYTHON_HOME=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}
 TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
+TERMUX_PYTHON_CROSSENV_BUILDHOME=$TERMUX_PYTHON_CROSSENV_PREFIX/build/lib/python${TERMUX_PYTHON_VERSION}
 TUR_AUTO_AUDIT_WHEEL=true
 TUR_AUDIT_WHEEL_NO_LIBS=true
 TUR_AUTO_BUILD_WHEEL=false
@@ -58,7 +59,7 @@ termux_pkg_auto_update() {
 }
 
 termux_step_post_get_source() {
-	local _ninja_source_file="$TERMUX_PKG_CACHEDIR/ninja-source.tar.gz"
+	local _ninja_source_file="$TERMUX_PKG_CACHEDIR/ninja-source-$_NINJA_VERSION.tar.gz"
 
 	termux_download $_NINJA_SRCURL $_ninja_source_file $_NINJA_SHA256
 
@@ -89,8 +90,23 @@ termux_step_make_install() {
 	rm -f $TERMUX_PREFIX/bin/.placeholder
 	touch $TERMUX_PREFIX/bin/.placeholder
 
+	local native_wheel_arch
+	case "$TERMUX_ARCH" in
+		aarch64) native_wheel_arch=arm64_v8a ;;
+		arm)     native_wheel_arch=armeabi_v7a ;;
+		x86_64)  native_wheel_arch=x86_64 ;;
+		i686)    native_wheel_arch=x86 ;;
+		*)
+			echo "ERROR: Unknown architecture: $TERMUX_ARCH"
+			return 1 ;;
+	esac
+
 	# Convert it to a generic wheel
-	mv ./dist/ninja-$TERMUX_PKG_VERSION-cp311-cp311-linux_$TERMUX_ARCH.whl \
+	mv ./dist/ninja-$TERMUX_PKG_VERSION-cp314-cp314-android_$TERMUX_ARCH.whl \
+		./dist/ninja-$TERMUX_PKG_VERSION-py2.py3-none-android_${TERMUX_PKG_API_LEVEL}_$native_wheel_arch.whl
+
+	# Also provide for linux (python<=3.12)
+	cp ./dist/ninja-$TERMUX_PKG_VERSION-py2.py3-none-android_${TERMUX_PKG_API_LEVEL}_$native_wheel_arch.whl \
 		./dist/ninja-$TERMUX_PKG_VERSION-py2.py3-none-linux_$TERMUX_ARCH.whl
 }
 

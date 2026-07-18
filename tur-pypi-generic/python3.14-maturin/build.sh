@@ -4,7 +4,7 @@ TERMUX_PKG_LICENSE="Apache-2.0, MIT"
 TERMUX_PKG_LICENSE_FILE="license-apache, license-mit"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
 TERMUX_PKG_VERSION="1.14.1"
-TERMUX_PKG_REVISION=1
+TERMUX_PKG_REVISION=2
 TERMUX_PKG_SRCURL=https://github.com/PyO3/maturin/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
 TERMUX_PKG_SHA256=435f8d5b267e52588fe699cab97a8234e3d98977a9f9e6efe873e04f7f85f92c
 TERMUX_PKG_AUTO_UPDATE=true
@@ -60,7 +60,7 @@ termux_step_make_install() {
 	mv "$_whl_dest" "$_whl_orig"
 
 	# Also provide for linux (python<=3.12)
-	local cross_wheel_2_ext="${TERMUX_PKG_VERSION}-py3-none-linux-$TERMUX_ARCH.whl"
+	local cross_wheel_2_ext="${TERMUX_PKG_VERSION}-py3-none-linux_$TERMUX_ARCH.whl"
 	local _whl_dest_2="target/wheels/maturin-${cross_wheel_2_ext}"
 	cp "$_whl_orig" "$_whl_dest_2"
 }

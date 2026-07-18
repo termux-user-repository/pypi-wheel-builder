@@ -1,42 +1,34 @@
+--- a/third_party/cares/cares/include/ares.h
++++ b/third_party/cares/cares/include/ares.h
+@@ -85,7 +85,7 @@
+ #  include <netinet/in.h>
+ #endif
+ 
+-#if defined(ANDROID) || defined(__ANDROID__)
++#if 0
+ #  include <jni.h>
+ #endif
+ 
+@@ -348,7 +348,7 @@
+                                        void *(*arealloc)(void  *ptr,
+                                                          size_t size));
+ 
+-#if defined(ANDROID) || defined(__ANDROID__)
++#if 0
+ CARES_EXTERN void ares_library_init_jvm(JavaVM *jvm);
+ CARES_EXTERN int  ares_library_init_android(jobject connectivity_manager);
+ CARES_EXTERN int  ares_library_android_initialized(void);
 --- a/third_party/cares/cares/src/lib/ares_android.c
 +++ b/third_party/cares/cares/src/lib/ares_android.c
-@@ -12,7 +12,7 @@
-  * this software for any purpose.  It is provided "as is"
-  * without express or implied warranty.
+@@ -23,7 +23,7 @@
+  *
+  * SPDX-License-Identifier: MIT
   */
 -#if defined(ANDROID) || defined(__ANDROID__)
 +#if 0
+ #  include "ares_private.h"
+ #  include <jni.h>
  
- #include <jni.h>
- 
---- a/third_party/cares/cares/src/lib/ares_init.c
-+++ b/third_party/cares/cares/src/lib/ares_init.c
-@@ -47,7 +47,9 @@
- 
- #if defined(ANDROID) || defined(__ANDROID__)
- #include <sys/system_properties.h>
-+#if 0
- #include "ares_android.h"
-+#endif
- /* From the Bionic sources */
- #define DNS_PROP_NAME_PREFIX "net.dns"
- #define MAX_DNS_PROPERTIES   8
-@@ -1321,6 +1323,7 @@
-   char  *domains;
-   size_t num_servers;
- 
-+#if 0
-   /* Use the Android connectivity manager to get a list
-    * of DNS servers. As of Android 8 (Oreo) net.dns#
-    * system properties are no longer available. Google claims this
-@@ -1346,6 +1349,7 @@
-     set_search(channel, domains);
-     ares_free(domains);
-   }
-+#endif
- 
- #  ifdef HAVE___SYSTEM_PROPERTY_GET
-   /* Old way using the system property still in place as
 --- a/third_party/cares/cares/src/lib/ares_library_init.c
 +++ b/third_party/cares/cares/src/lib/ares_library_init.c
 @@ -32,7 +32,7 @@
@@ -45,7 +37,7 @@
  
 -#if defined(ANDROID) || defined(__ANDROID__)
 +#if 0
- #include "ares_android.h"
+ #  include "ares_android.h"
  #endif
  
 @@ -141,7 +141,7 @@
@@ -57,3 +49,57 @@
    ares_library_cleanup_android();
  #endif
  
+--- a/third_party/cares/cares/src/lib/ares_init.c
++++ b/third_party/cares/cares/src/lib/ares_init.c
+@@ -47,7 +47,9 @@
+ 
+ #if defined(ANDROID) || defined(__ANDROID__)
+ #  include <sys/system_properties.h>
++#if 0
+ #  include "ares_android.h"
++#endif
+ /* From the Bionic sources */
+ #  define DNS_PROP_NAME_PREFIX "net.dns"
+ #  define MAX_DNS_PROPERTIES   8
+--- a/third_party/cares/cares/src/lib/ares_sysconfig_files.c
++++ b/third_party/cares/cares/src/lib/ares_sysconfig_files.c
+@@ -47,7 +47,9 @@
+ 
+ #if defined(ANDROID) || defined(__ANDROID__)
+ #  include <sys/system_properties.h>
++#if 0
+ #  include "ares_android.h"
++#endif
+ /* From the Bionic sources */
+ #  define DNS_PROP_NAME_PREFIX "net.dns"
+ #  define MAX_DNS_PROPERTIES   8
+--- a/third_party/cares/cares/src/lib/ares_sysconfig.c
++++ b/third_party/cares/cares/src/lib/ares_sysconfig.c
+@@ -45,7 +45,9 @@
+ 
+ #if defined(ANDROID) || defined(__ANDROID__)
+ #  include <sys/system_properties.h>
++#if 0
+ #  include "ares_android.h"
++#endif
+ /* From the Bionic sources */
+ #  define DNS_PROP_NAME_PREFIX "net.dns"
+ #  define MAX_DNS_PROPERTIES   8
+@@ -196,7 +198,7 @@
+ }
+ #endif
+ 
+-#if defined(ANDROID) || defined(__ANDROID__)
++#if 0
+ static ares_status_t ares_init_sysconfig_android(const ares_channel_t *channel,
+                                                  ares_sysconfig_t *sysconfig)
+ {
+@@ -510,7 +512,7 @@
+   status = ares_init_sysconfig_riscos(channel, &sysconfig);
+ #elif defined(WATT32)
+   status = ares_init_sysconfig_watt32(channel, &sysconfig);
+-#elif defined(ANDROID) || defined(__ANDROID__)
++#elif 0
+   status = ares_init_sysconfig_android(channel, &sysconfig);
+ #elif defined(__APPLE__)
+   status = ares_init_sysconfig_macos(channel, &sysconfig);

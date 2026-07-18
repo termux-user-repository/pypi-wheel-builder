@@ -1,5 +1,5 @@
---- a/ninja-source/src/subprocess-posix.cc
-+++ b/ninja-source/src/subprocess-posix.cc
+--- a/ninja-upstream/src/subprocess-posix.cc
++++ b/ninja-upstream/src/subprocess-posix.cc
 @@ -110,8 +110,8 @@ bool Subprocess::Start(SubprocessSet* set, const string& command) {
    if (err != 0)
      Fatal("posix_spawnattr_setflags: %s", strerror(err));

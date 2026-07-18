@@ -6,7 +6,7 @@ Only search packages from tur-pypi repository when auto-updating.
  if [[ "$1" == "@all" ]]; then
  	declare -a PACKAGE_LIST=()
 -	for channel in "tur" "tur-on-device" "tur-multilib" "tur-hacking"; do
-+	for channel in "tur-pypi-314"; do
++	for channel in "tur-pypi-314" "tur-pypi-generic"; do
  		for pkg_dir in "${channel}"/*; do
  			PACKAGE_LIST+=("$pkg_dir")
  		done
@@ -15,7 +15,7 @@ Only search packages from tur-pypi repository when auto-updating.
  	pkg_dir="${pkg}"
  	if [[ ! -d "${pkg}" ]]; then # If only package name is given, try to find its directory.
 -		for channel in "tur" "tur-on-device" "tur-multilib" "tur-hacking"; do
-+		for channel in "tur-pypi-314"; do
++		for channel in "tur-pypi-314" "tur-pypi-generic"; do
  			if [[ -d "${channel}/${pkg}" ]]; then
  				pkg_dir="${channel}/${pkg}"
  				break

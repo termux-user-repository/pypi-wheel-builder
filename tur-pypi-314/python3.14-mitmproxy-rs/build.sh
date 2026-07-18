@@ -1,0 +1,72 @@
+TERMUX_PKG_HOMEPAGE=https://github.com/mitmproxy/mitmproxy_rs
+TERMUX_PKG_DESCRIPTION="The Rust bits in mitmproxy"
+TERMUX_PKG_LICENSE="MIT"
+TERMUX_PKG_MAINTAINER="@termux-user-repository"
+TERMUX_PKG_LICENSE_FILE="../LICENSE"
+TERMUX_PKG_VERSION="0.12.6"
+TERMUX_PKG_SRCURL=https://github.com/mitmproxy/mitmproxy_rs/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
+TERMUX_PKG_SHA256=e766146d09e9c74a83c387bbbfa6736a863b73b60ab9e1f4b5fe53b9ee9bb6fc
+TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_DEPENDS="libc++, openssl, python, python-pip"
+TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel"
+TERMUX_PKG_PYTHON_CROSS_BUILD_DEPS="'maturin<1.13'"
+TERMUX_PKG_BUILD_IN_SRC=true
+TERMUX_PKG_UPDATE_TAG_TYPE="newest-tag"
+
+TERMUX_PYTHON_VERSION=3.14
+TERMUX_PYTHON_HOME=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}
+TERMUX_PYTHON_CROSSENV_PREFIX=$TERMUX_PKG_BUILDDIR/python${TERMUX_PYTHON_VERSION/./}-crossenv-prefix-$TERMUX_ARCH
+TERMUX_PYTHON_CROSSENV_BUILDHOME=$TERMUX_PYTHON_CROSSENV_PREFIX/build/lib/python${TERMUX_PYTHON_VERSION}
+TUR_AUTO_AUDIT_WHEEL=true
+TUR_AUDIT_WHEEL_NO_LIBS=true
+TUR_AUTO_BUILD_WHEEL=false
+TUR_WHEEL_DIR="../target/wheels"
+
+source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
+
+termux_step_configure() {
+	TERMUX_PKG_SRCDIR+="/mitmproxy-rs"
+	TERMUX_PKG_BUILDDIR+="/mitmproxy-rs"
+}
+
+termux_step_make() {
+	termux_setup_rust
+
+	export LDFLAGS+=" -Wl,--no-as-needed -lpython${TERMUX_PYTHON_VERSION}"
+
+	export CARGO_BUILD_TARGET=${CARGO_TARGET_NAME}
+	export PYO3_CROSS_PYTHON_VERSION=$TERMUX_PYTHON_VERSION
+	export PYO3_CROSS_LIB_DIR=$TERMUX_PREFIX/lib
+	export PYTHONPATH=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}/site-packages
+	export ANDROID_API_LEVEL="$TERMUX_PKG_API_LEVEL"
+
+	build-python -m maturin build \
+				--target $CARGO_BUILD_TARGET \
+				--release --skip-auditwheel \
+				--interpreter python${TERMUX_PYTHON_VERSION}
+}
+
+termux_step_make_install() {
+	local native_wheel_arch
+	case "$TERMUX_ARCH" in
+		aarch64) native_wheel_arch=arm64_v8a ;;
+		arm)     native_wheel_arch=armeabi_v7a ;;
+		x86_64)  native_wheel_arch=x86_64 ;;
+		i686)    native_wheel_arch=x86 ;;
+		*)
+			echo "ERROR: Unknown architecture: $TERMUX_ARCH"
+			return 1 ;;
+	esac
+	local pack_name="mitmproxy_rs"
+	local pyversion="${TERMUX_PYTHON_VERSION/./}"
+	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp312-abi3-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
+	local cross_wheel_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-none-any.whl"
+	local release_whl_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-cp${pyversion}-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
+
+	local _whl_orig="../target/wheels/${pack_name}-${native_wheel_ext}"
+	local _whl_dest="../target/wheels/${pack_name}-${cross_wheel_ext}"
+	local _whl_release="../target/wheels/${pack_name}-${release_whl_ext}"
+	mv "$_whl_orig" "$_whl_dest"
+	pip install --force-reinstall --no-deps --prefix "$TERMUX_PREFIX" "$_whl_dest"
+	mv "$_whl_dest" "$_whl_release"
+}

@@ -9,7 +9,7 @@ TERMUX_PKG_DEPENDS="libc++, python3.11"
 TERMUX_PKG_BUILD_DEPENDS="libandroid-spawn-static"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 
 TERMUX_PYTHON_VERSION=3.11

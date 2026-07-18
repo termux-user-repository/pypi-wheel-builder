@@ -8,7 +8,7 @@ TERMUX_PKG_SHA256=33f277c8ba3cd12b6a7e6c2d05c2a4ee113fc1c752c71e60d3782a1352a226
 TERMUX_PKG_DEPENDS="libarchive, libc++, libcurl, libexpat, jsoncpp, libuv, python3.11, rhash, zlib"
 TERMUX_PKG_PYTHON_COMMON_DEPS="wheel, 'setuptools==65.4.1', 'setuptools-scm[toml]', scikit-build"
 TERMUX_PKG_BUILD_IN_SRC=true
-TERMUX_PKG_AUTO_UPDATE=true
+TERMUX_PKG_AUTO_UPDATE=false
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
 TERMUX_PKG_EXTRA_CONFIGURE_ARGS="
 -DCMAKE_INSTALL_PREFIX=$TERMUX_PREFIX/opt/cmake-wheel-dist

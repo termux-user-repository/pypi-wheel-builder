@@ -1,0 +1,11 @@
+[
+  {
+    "name": "libffi",
+    "libs": [
+      "libffi"
+    ],
+    "licenses": [
+      "libffi-LICENSE"
+    ]
+  }
+]

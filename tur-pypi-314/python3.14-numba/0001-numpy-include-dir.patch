@@ -1,0 +1,16 @@
+--- a/setup.py
++++ b/setup.py
+@@ -136,8 +136,11 @@
+     # Note we don't import NumPy at the toplevel, since setup.py
+     # should be able to run without NumPy for pip to discover the
+     # build dependencies. Need NumPy headers and libm linkage.
+-    import numpy as np
+-    np_compile_args = {'include_dirs': [np.get_include(),],}
++    NUMPY_INCLUDE_DIR = os.getenv("NUMPY_INCLUDE_DIR", None)
++    if not NUMPY_INCLUDE_DIR:
++        import numpy as np
++        NUMPY_INCLUDE_DIR = np.get_include()
++    np_compile_args = {'include_dirs': [NUMPY_INCLUDE_DIR,],}
+     if sys.platform != 'win32':
+         np_compile_args['libraries'] = ['m',]
+ 

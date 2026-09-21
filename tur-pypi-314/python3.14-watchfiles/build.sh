@@ -2,9 +2,9 @@ TERMUX_PKG_HOMEPAGE=https://github.com/samuelcolvin/watchfiles
 TERMUX_PKG_DESCRIPTION="Simple, modern and fast file watching and code reload for Python, written in Rust"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="1.2.0"
+TERMUX_PKG_VERSION="1.3.0"
 TERMUX_PKG_SRCURL=https://github.com/samuelcolvin/watchfiles/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=5439668773621a3b80fc7bdc603b55d28ba8c8b6a4fc0c5e76bd47864ff4ebfa
+TERMUX_PKG_SHA256=f9b2753febdd2fa612e1578382bc35d1e07a3b5d92126afbf37e78dd25283ae3
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, python, python-pip"
 TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel"
@@ -50,7 +50,7 @@ termux_step_make_install() {
 	esac
 	local pack_name="watchfiles"
 	local pyversion="${TERMUX_PYTHON_VERSION/./}"
-	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-cp${pyversion}-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
+	local native_wheel_ext="${TERMUX_PKG_VERSION}-cp310-abi3-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
 	local cross_wheel_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-none-any.whl"
 	local release_whl_ext="${TERMUX_PKG_VERSION}-cp${pyversion}-cp${pyversion}-android_${ANDROID_API_LEVEL}_${native_wheel_arch}.whl"
 

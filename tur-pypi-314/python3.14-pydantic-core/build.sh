@@ -1,16 +1,17 @@
-TERMUX_PKG_HOMEPAGE=https://github.com/pydantic/pydantic-core
+TERMUX_PKG_HOMEPAGE=https://github.com/pydantic/pydantic
 TERMUX_PKG_DESCRIPTION="Core validation logic for pydantic written in rust"
 TERMUX_PKG_LICENSE="MIT"
 TERMUX_PKG_MAINTAINER="@termux-user-repository"
-TERMUX_PKG_VERSION="2.41.5"
-TERMUX_PKG_SRCURL=https://github.com/pydantic/pydantic-core/archive/refs/tags/v$TERMUX_PKG_VERSION.tar.gz
-TERMUX_PKG_SHA256=872f700f7e42723e17cec5291d00677d790c14768030f4f37e7de72c2935d731
+TERMUX_PKG_VERSION="2.48.0"
+TERMUX_PKG_SRCURL=https://github.com/pydantic/pydantic/archive/refs/tags/core-v$TERMUX_PKG_VERSION.tar.gz
+TERMUX_PKG_SHA256=347ea90c7425a1516b5a3516695399922fe57d2b82c3573a7940410c5ea4167d
 TERMUX_PKG_AUTO_UPDATE=true
 TERMUX_PKG_DEPENDS="libc++, python, python-pip"
 TERMUX_PKG_PYTHON_COMMON_BUILD_DEPS="wheel, 'typing-extensions==4.6.0'"
 TERMUX_PKG_PYTHON_CROSS_BUILD_DEPS="'maturin<1.13'"
 TERMUX_PKG_BUILD_IN_SRC=true
 TERMUX_PKG_UPDATE_TAG_TYPE="latest-release-tag"
+TERMUX_PKG_UPDATE_VERSION_SED_REGEXP='s/core-v//'
 
 TERMUX_PYTHON_VERSION=3.14
 TERMUX_PYTHON_HOME=$TERMUX_PREFIX/lib/python${TERMUX_PYTHON_VERSION}
@@ -22,6 +23,23 @@ TUR_AUTO_BUILD_WHEEL=false
 TUR_WHEEL_DIR="target/wheels"
 
 source $TERMUX_SCRIPTDIR/common-files/tur_build_wheel.sh
+
+termux_pkg_auto_update() {
+	# Get latest release tag:
+	local api_url="https://api.github.com/repos/pydantic/pydantic/git/refs/tags"
+	local latest_refs_tags=$(curl -s "$api_url" | jq -r .[].ref | cut -d'/' -f 3 | grep "core-")
+	if [[ -z "${latest_refs_tags}" ]]; then
+		echo "WARN: Unable to get latest refs tags from upstream. Try again later." >&2
+		return
+	fi
+	local latest_version="$(echo "${latest_refs_tags}" | sort -V | tail -n1)"
+	termux_pkg_upgrade_version "${latest_version}"
+}
+
+termux_step_pre_configure() {
+	TERMUX_PKG_SRCDIR+="/pydantic-core"
+	TERMUX_PKG_BUILDDIR+="/pydantic-core"
+}
 
 termux_step_make() {
 	termux_setup_rust

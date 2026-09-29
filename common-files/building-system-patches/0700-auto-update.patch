@@ -35,6 +35,6 @@ Only search packages from tur-pypi repository when auto-updating.
 +tur-pypi-312
 +tur-pypi-313
 +tur-pypi-314
- "
+ )
  
  # Please keep synchronized with the logic of lines 468-547 of 'build-package.sh'.
